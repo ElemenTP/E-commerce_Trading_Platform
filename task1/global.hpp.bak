@@ -1,0 +1,232 @@
+#include "json.hpp"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+using json = nlohmann::json;
+
+typedef enum
+{
+    client,
+    business,
+} usr_type;
+
+typedef enum
+{
+    food,
+    clothing,
+    book,
+} item_type;
+
+static const vector<string> item_type_des = {"食品", "衣物", "书籍"};
+
+class Merchandise
+{
+protected:
+    string title;
+    string description;
+    double pricing;
+    float discount;
+    unsigned long long stock;
+    string passwd;
+
+public:
+    virtual item_type getItemType() const = 0;
+    Merchandise(json iptjson)
+    {
+
+    }
+    bool changeTitle(string iptpasswd, string newtitle)
+    {
+        if (iptpasswd == passwd)
+        {
+            title = newtitle;
+            return true;
+        }
+        else
+            return false;
+    }
+    string getTitle() const { return title; }
+    bool changeDescription(string iptpasswd, string newdescription)
+    {
+        if (iptpasswd == passwd)
+        {
+            description = newdescription;
+            return true;
+        }
+        else
+            return false;
+    }
+    string getDescription() const { return description; }
+    bool changePricing(string iptpasswd, double newpricing)
+    {
+        if (iptpasswd == passwd)
+        {
+            pricing = newpricing;
+            return true;
+        }
+        else
+            return false;
+    }
+    double getPricing() const { return pricing; }
+    bool changeDiscount(string iptpasswd, float newdiscount)
+    {
+        if (iptpasswd == passwd && newdiscount >= 0 && newdiscount <= 1)
+        {
+            discount = newdiscount;
+            return true;
+        }
+        else
+            return false;
+    }
+    float getDiscount() const { return discount; }
+    bool isDicount() const
+    {
+        if (discount < 1)
+            return true;
+        else
+            return false;
+    }
+    double getToPay() const { return pricing * discount; }
+    bool changepasswd(string oldpasswd, string newpasswd)
+    {
+        if (oldpasswd == passwd)
+        {
+            passwd = newpasswd;
+            return true;
+        }
+        else
+            return false;
+    }
+};
+
+class Food : Merchandise
+{
+public:
+    item_type getItemType() const { return food; }
+};
+
+class Clothing : Merchandise
+{
+public:
+    item_type getItemType() const { return clothing; }
+};
+
+class Book : Merchandise
+{
+public:
+    item_type getItemType() const { return book; }
+};
+
+class Account
+{
+protected:
+    string name;
+    string passwd;
+    double balance;
+
+public:
+    virtual usr_type getUserType() const = 0;
+    bool changeName(string iptpasswd, string newname)
+    {
+        if (iptpasswd == passwd)
+        {
+            name = newname;
+            return true;
+        }
+        else
+            return false;
+    }
+    string getName() const { return name; }
+    virtual bool changepasswd(string oldpasswd, string newpasswd) = 0;
+    bool checkpasswd(string iptpasswd) const
+    {
+        if (iptpasswd == passwd)
+            return true;
+        else
+            return false;
+    }
+    double getBalance(string iptpasswd) const
+    {
+        if (iptpasswd == passwd)
+        {
+            return balance;
+        }
+        else
+            return -1;
+    }
+    bool changeBalance(string iptpasswd, double amount)
+    {
+        if (iptpasswd == passwd)
+        {
+            if ((balance + amount) >= 0 && (balance + amount) < __DBL_MAX__)
+            {
+                balance += amount;
+                return true;
+            }
+        }
+        else
+            return false;
+    }
+};
+
+class Client : Account
+{
+protected:
+public:
+    usr_type getUserType() const { return client; }
+    Client(string iptname, string iptpasswd)
+    {
+        name = iptname;
+        passwd = iptpasswd;
+        balance = 0;
+        cout << "成功创建新消费者账号，用户名：" << name << endl;
+    }
+    bool changepasswd(string oldpasswd, string newpasswd)
+    {
+        if (oldpasswd == passwd)
+        {
+            passwd = newpasswd;
+            return true;
+        }
+        else
+            return false;
+    }
+};
+
+class Business : Account
+{
+protected:
+    vector<Merchandise> myShelves;
+
+public:
+    usr_type getUserType() const { return business; }
+    Business(string iptname, string iptpasswd)
+    {
+        name = iptname;
+        passwd = iptpasswd;
+        balance = 0;
+        cout << "成功创建新商家账号，用户名：" << name << endl;
+    }
+    bool changepasswd(string oldpasswd, string newpasswd)
+    {
+        if (oldpasswd == passwd)
+        {
+            for (int i = 1; i < myShelves.size(); i++)
+                myShelves[i].changepasswd(passwd, newpasswd);
+            passwd = newpasswd;
+            return true;
+        }
+        else
+            return false;
+    }
+    const vector<Merchandise> *getMyShelves() const { return &myShelves; }
+    vector<Merchandise> *changeMyShelves(string iptpasswd)
+    {
+        if (iptpasswd == passwd)
+            return (&myShelves);
+        else
+            return NULL;
+    }
+};
