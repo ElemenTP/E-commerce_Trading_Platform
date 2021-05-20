@@ -161,6 +161,7 @@ public:
     virtual usr_type getUserType() const = 0;
     Account() {}
     Account(string iptname, string iptpasswd) : name(iptname), passwd(iptpasswd), balance(0) {}
+    virtual void optAccoutDet() const = 0;
     bool changeName(string iptpasswd, string newname)
     {
         if (iptpasswd == passwd)
@@ -221,6 +222,13 @@ public:
     Client(string iptname, string iptpasswd) : Account(iptname, iptpasswd)
     {
         cout << "成功创建新消费者账号，用户名：" << name << endl;
+        system("pause");
+    }
+    void optAccoutDet() const
+    {
+        cout << "类别" << setw(50) << "买家" << endl;
+        cout << "昵称" << setw(50) << name << endl;
+        cout << "余额" << setw(50) << balance << endl;
     }
     friend void to_json(json &j, const Client &p);
     friend void from_json(const json &j, Client &p);
@@ -248,6 +256,14 @@ public:
     Business(string iptname, string iptpasswd) : Account(iptname, iptpasswd)
     {
         cout << "成功创建新商家账号，用户名：" << name << endl;
+        system("pause");
+    }
+    void optAccoutDet() const
+    {
+        cout << "类别" << setw(50) << "卖家" << endl;
+        cout << "昵称" << setw(50) << name << endl;
+        cout << "余额" << setw(50) << balance << endl;
+        cout << "货架商品数" << setw(50) << myShelves.size() << endl;
     }
     const vector<json> *getMyShelves() const { return &myShelves; }
     vector<json> *changeMyShelves(string iptpasswd)
@@ -263,7 +279,7 @@ public:
 
 void to_json(json &j, const Business &p)
 {
-    j = {{"type", client}, {"name", p.name}, {"passwd", p.passwd}, {"balance", p.balance}, {"myShelves", p.myShelves}};
+    j = {{"type", business}, {"name", p.name}, {"passwd", p.passwd}, {"balance", p.balance}, {"myShelves", p.myShelves}};
 }
 void from_json(const json &j, Business &p)
 {
