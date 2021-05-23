@@ -1,0 +1,88 @@
+[
+    {
+        "balance": 1919810.0,
+        "name": "yajusenpai",
+        "passwd": "yajusenpai",
+        "type": 0
+    },
+    {
+        "balance": 306495.0,
+        "myShelves": [
+            {
+                "detail": "Improve your C++ skills.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "Effective C++",
+                "type": 2
+            },
+            {
+                "detail": "A book for C++ starters.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "C++ Primer",
+                "type": 2
+            },
+            {
+                "detail": "The story is a cosmic epic.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "Three Body",
+                "type": 2
+            },
+            {
+                "detail": "Fits summer.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "T-shirt",
+                "type": 1
+            },
+            {
+                "detail": "Made of canvas.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "Trousers",
+                "type": 1
+            },
+            {
+                "detail": "Run free.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "Sneakers",
+                "type": 1
+            },
+            {
+                "detail": "Happy water.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "CocaCola",
+                "type": 0
+            },
+            {
+                "detail": "Deal with hunger.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "Bread",
+                "type": 0
+            },
+            {
+                "detail": "High sugar. High salt. High oil.",
+                "discount": 1.0,
+                "price": 114.0,
+                "stock": 514,
+                "title": "Chocolate",
+                "type": 0
+            }
+        ],
+        "name": "MUR",
+        "passwd": "sodayo",
+        "type": 1
+    }
+]
