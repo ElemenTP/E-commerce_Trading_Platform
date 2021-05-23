@@ -20,14 +20,12 @@ typedef enum
     book,
 } item_type;
 
-static const vector<string> item_type_des = {"食品", "衣物", "书籍"};
-
 class Merchandise
 {
 protected:
     string title;
-    string description;
-    double pricing;
+    string detail;
+    double price;
     float discount;
     unsigned long long stock;
 
@@ -35,10 +33,10 @@ public:
     virtual item_type getItemType() const = 0;
     virtual void optItemDes() const = 0;
     Merchandise() {}
-    Merchandise(string ipttitle, string iptdes, double iptpricing, float iptdiscount, unsigned long long iptstock) : title(ipttitle), description(iptdes), pricing(iptpricing), discount(iptdiscount), stock(iptstock) {}
+    Merchandise(string ipttitle, string iptdes, double iptprice, float iptdiscount, unsigned long long iptstock) : title(ipttitle), detail(iptdes), price(iptprice), discount(iptdiscount), stock(iptstock) {}
     string getTitle() const { return title; }
-    string getDescription() const { return description; }
-    double getPricing() const { return pricing; }
+    string getdetail() const { return detail; }
+    double getprice() const { return price; }
     float getDiscount() const { return discount; }
     bool isDicount() const
     {
@@ -47,7 +45,7 @@ public:
         else
             return false;
     }
-    double getToPay() const { return pricing * discount; }
+    double getToPay() const { return price * discount; }
     unsigned long long getStock() const { return stock; }
 };
 
@@ -56,64 +54,52 @@ class Food : public Merchandise
 public:
     item_type getItemType() const { return food; }
     Food() {}
-    Food(string ipttitle, string iptdes, double iptpricing, float iptdiscount, unsigned long long iptstock) : Merchandise(ipttitle, iptdes, iptpricing, iptdiscount, iptstock) {}
+    Food(string ipttitle, string iptdes, double iptprice, float iptdiscount, unsigned long long iptstock) : Merchandise(ipttitle, iptdes, iptprice, iptdiscount, iptstock) {}
     void optItemDes() const
     {
-        cout << "种类" << setw(50) << "食品" << endl;
-        cout << "名称" << setw(50) << title << endl;
-        cout << "详情" << setw(50) << description << endl;
-        cout << "售价" << setw(50) << pricing << endl;
-        cout << "折扣" << setw(50) << discount << endl;
-        cout << "库存" << setw(50) << stock << endl;
+        cout << "Type"
+             << "\t"
+             << "Food" << endl;
+        cout << "Name"
+             << "\t" << title << endl;
+        cout << "Detail"
+             << "\t" << detail << endl;
+        cout << "Price"
+             << "\t" << price << endl;
+        cout << "Discount"
+             << "\t" << discount << endl;
+        cout << "Stock"
+             << "\t" << stock << endl;
     }
     friend void to_json(json &j, const Food &p);
     friend void from_json(const json &j, Food &p);
 };
-
-void to_json(json &j, const Food &p)
-{
-    j = {{"type", food}, {"title", p.title}, {"description", p.description}, {"pricing", p.pricing}, {"discount", p.discount}, {"stock", p.stock}};
-}
-void from_json(const json &j, Food &p)
-{
-    j.at("title").get_to(p.title);
-    j.at("description").get_to(p.description);
-    j.at("pricing").get_to(p.pricing);
-    j.at("discount").get_to(p.discount);
-    j.at("stock").get_to(p.stock);
-}
 
 class Clothing : public Merchandise
 {
 public:
     item_type getItemType() const { return clothing; }
     Clothing() {}
-    Clothing(string ipttitle, string iptdes, double iptpricing, float iptdiscount, unsigned long long iptstock) : Merchandise(ipttitle, iptdes, iptpricing, iptdiscount, iptstock) {}
+    Clothing(string ipttitle, string iptdes, double iptprice, float iptdiscount, unsigned long long iptstock) : Merchandise(ipttitle, iptdes, iptprice, iptdiscount, iptstock) {}
     void optItemDes() const
     {
-        cout << "种类" << setw(50) << "衣物" << endl;
-        cout << "名称" << setw(50) << title << endl;
-        cout << "详情" << setw(50) << description << endl;
-        cout << "售价" << setw(50) << pricing << endl;
-        cout << "折扣" << setw(50) << discount << endl;
-        cout << "库存" << setw(50) << stock << endl;
+        cout << "Type"
+             << "\t"
+             << "Clothing" << endl;
+        cout << "Name"
+             << "\t" << title << endl;
+        cout << "Detail"
+             << "\t" << detail << endl;
+        cout << "Price"
+             << "\t" << price << endl;
+        cout << "Discount"
+             << "\t" << discount << endl;
+        cout << "Stock"
+             << "\t" << stock << endl;
     }
     friend void to_json(json &j, const Clothing &p);
     friend void from_json(const json &j, Clothing &p);
 };
-
-void to_json(json &j, const Clothing &p)
-{
-    j = {{"type", food}, {"title", p.title}, {"description", p.description}, {"pricing", p.pricing}, {"discount", p.discount}, {"stock", p.stock}};
-}
-void from_json(const json &j, Clothing &p)
-{
-    j.at("title").get_to(p.title);
-    j.at("description").get_to(p.description);
-    j.at("pricing").get_to(p.pricing);
-    j.at("discount").get_to(p.discount);
-    j.at("stock").get_to(p.stock);
-}
 
 class Book : public Merchandise
 {
@@ -123,32 +109,26 @@ protected:
 public:
     item_type getItemType() const { return type; }
     Book() {}
-    Book(string ipttitle, string iptdes, double iptpricing, float iptdiscount, unsigned long long iptstock) : Merchandise(ipttitle, iptdes, iptpricing, iptdiscount, iptstock) {}
+    Book(string ipttitle, string iptdes, double iptprice, float iptdiscount, unsigned long long iptstock) : Merchandise(ipttitle, iptdes, iptprice, iptdiscount, iptstock) {}
     void optItemDes() const
     {
-        cout << "种类" << setw(50) << "书籍" << endl;
-        cout << "名称" << setw(50) << title << endl;
-        cout << "详情" << setw(50) << description << endl;
-        cout << "售价" << setw(50) << pricing << endl;
-        cout << "折扣" << setw(50) << discount << endl;
-        cout << "库存" << setw(50) << stock << endl;
+        cout << "Type"
+             << "\t"
+             << "Book" << endl;
+        cout << "Name"
+             << "\t" << title << endl;
+        cout << "Detail"
+             << "\t" << detail << endl;
+        cout << "Price"
+             << "\t" << price << endl;
+        cout << "Discount"
+             << "\t" << discount << endl;
+        cout << "Stock"
+             << "\t" << stock << endl;
     }
     friend void to_json(json &j, const Book &p);
     friend void from_json(const json &j, Book &p);
 };
-
-void to_json(json &j, const Book &p)
-{
-    j = {{"type", food}, {"title", p.title}, {"description", p.description}, {"pricing", p.pricing}, {"discount", p.discount}, {"stock", p.stock}};
-}
-void from_json(const json &j, Book &p)
-{
-    j.at("title").get_to(p.title);
-    j.at("description").get_to(p.description);
-    j.at("pricing").get_to(p.pricing);
-    j.at("discount").get_to(p.discount);
-    j.at("stock").get_to(p.stock);
-}
 
 class Account
 {
@@ -162,27 +142,9 @@ public:
     Account() {}
     Account(string iptname, string iptpasswd) : name(iptname), passwd(iptpasswd), balance(0) {}
     virtual void optAccoutDet() const = 0;
-    bool changeName(string iptpasswd, string newname)
-    {
-        if (iptpasswd == passwd)
-        {
-            name = newname;
-            return true;
-        }
-        else
-            return false;
-    }
-    string getName() const { return name; }
-    bool changepasswd(string oldpasswd, string newpasswd)
-    {
-        if (oldpasswd == passwd)
-        {
-            passwd = newpasswd;
-            return true;
-        }
-        else
-            return false;
-    }
+    double getBalance() const { return balance; }
+    void changeName(string newname) { name = newname; }
+    void changepasswd(string newpasswd) { passwd = newpasswd; }
     bool checkpasswd(string iptpasswd) const
     {
         if (iptpasswd == passwd)
@@ -190,28 +152,7 @@ public:
         else
             return false;
     }
-    double getBalance(string iptpasswd) const
-    {
-        if (iptpasswd == passwd)
-        {
-            return balance;
-        }
-        else
-            return -1;
-    }
-    bool changeBalance(string iptpasswd, double amount)
-    {
-        if (iptpasswd == passwd)
-        {
-            if ((balance + amount) >= 0 && (balance + amount) < __DBL_MAX__)
-            {
-                balance += amount;
-                return true;
-            }
-        }
-        else
-            return false;
-    }
+    void changeBalance(double amount) { balance += amount; }
 };
 
 class Client : public Account
@@ -219,31 +160,20 @@ class Client : public Account
 public:
     usr_type getUserType() const { return client; }
     Client() {}
-    Client(string iptname, string iptpasswd) : Account(iptname, iptpasswd)
-    {
-        cout << "成功创建新消费者账号，用户名：" << name << endl;
-        system("pause");
-    }
+    Client(string iptname, string iptpasswd) : Account(iptname, iptpasswd) {}
     void optAccoutDet() const
     {
-        cout << "类别" << setw(50) << "买家" << endl;
-        cout << "昵称" << setw(50) << name << endl;
-        cout << "余额" << setw(50) << balance << endl;
+        cout << "Type"
+             << "\t"
+             << "Buyer" << endl;
+        cout << "Name"
+             << "\t" << name << endl;
+        cout << "Balance"
+             << "\t" << balance << endl;
     }
     friend void to_json(json &j, const Client &p);
     friend void from_json(const json &j, Client &p);
 };
-
-void to_json(json &j, const Client &p)
-{
-    j = {{"type", client}, {"name", p.name}, {"passwd", p.passwd}, {"balance", p.balance}};
-}
-void from_json(const json &j, Client &p)
-{
-    j.at("name").get_to(p.name);
-    j.at("passwd").get_to(p.passwd);
-    j.at("balance").get_to(p.balance);
-}
 
 class Business : public Account
 {
@@ -253,38 +183,48 @@ protected:
 public:
     usr_type getUserType() const { return business; }
     Business() {}
-    Business(string iptname, string iptpasswd) : Account(iptname, iptpasswd)
-    {
-        cout << "成功创建新商家账号，用户名：" << name << endl;
-        system("pause");
-    }
+    Business(string iptname, string iptpasswd) : Account(iptname, iptpasswd) {}
     void optAccoutDet() const
     {
-        cout << "类别" << setw(50) << "卖家" << endl;
-        cout << "昵称" << setw(50) << name << endl;
-        cout << "余额" << setw(50) << balance << endl;
-        cout << "货架商品数" << setw(50) << myShelves.size() << endl;
+        cout << "Type"
+             << "\t"
+             << "Seller" << endl;
+        cout << "Name"
+             << "\t" << name << endl;
+        cout << "Balance"
+             << "\t" << balance << endl;
+        cout << "Number of my products"
+             << "\t" << myShelves.size() << endl;
     }
     const vector<json> *getMyShelves() const { return &myShelves; }
-    vector<json> *changeMyShelves(string iptpasswd)
-    {
-        if (iptpasswd == passwd)
-            return (&myShelves);
-        else
-            return NULL;
-    }
+    vector<json> *changeMyShelves() { return (&myShelves); }
     friend void to_json(json &j, const Business &p);
     friend void from_json(const json &j, Business &p);
 };
 
-void to_json(json &j, const Business &p)
+class Page
 {
-    j = {{"type", business}, {"name", p.name}, {"passwd", p.passwd}, {"balance", p.balance}, {"myShelves", p.myShelves}};
-}
-void from_json(const json &j, Business &p)
-{
-    j.at("name").get_to(p.name);
-    j.at("passwd").get_to(p.passwd);
-    j.at("balance").get_to(p.balance);
-    j.at("myShelves").get_to(p.myShelves);
-}
+private:
+    json data;
+    Account *cur_usr = NULL;
+    json::iterator usr_json;
+    ifstream iptdata;
+    ofstream optdata;
+    void signup();
+    void signupipt(usr_type type);
+    void signinipt();
+    void browseall();
+    void accouthome();
+    void changename();
+    void changepasswd();
+    void recharge();
+    void withdrawals();
+    void managemyshelf();
+    void managemygood();
+    json newgood();
+    void storedata();
+
+public:
+    Page();
+    void runapp();
+};
