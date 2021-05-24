@@ -527,6 +527,8 @@ void Page::managemyshelf()
                 }
                 break;
             case 's':
+                managemygood(it);
+                storedata();
                 break;
             case 'd':
                 ++it;
@@ -609,7 +611,13 @@ json Page::newgood()
     cout << "Input"
          << "\t"
          << "price" << endl;
+ipt3:
     cin >> iptprice;
+    if (iptprice < 0)
+    {
+        cout << "Invalid price. Input again." << endl;
+        goto ipt3;
+    }
     j["price"] = iptprice;
     j["discount"] = 1.0;
     cout << "Input"
@@ -631,4 +639,101 @@ void Page::storedata()
     optdata.close();
 }
 
-void Page::managemygood() {}
+void Page::managemygood(vector<json>::iterator it)
+{
+    do
+    {
+        system("cls");
+        cout << "***************************Manage**************************" << endl;
+        cout << "Press A"
+             << "\t"
+             << "Change title" << endl;
+        cout << "Press S"
+             << "\t"
+             << "Change detail" << endl;
+        cout << "Press D"
+             << "\t"
+             << "Change price" << endl;
+        cout << "Press F"
+             << "\t"
+             << "Change discount" << endl;
+        cout << "Press G"
+             << "\t"
+             << "Change stock" << endl;
+        cout << "Press Q"
+             << "\t"
+             << "Go Back" << endl;
+        switch (getch())
+        {
+        case 'a':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "new title" << endl;
+            string newtitle;
+            std::getline(std::cin, newtitle, '\n');
+            (*it)["title"] = newtitle;
+            break;
+        }
+        case 's':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "new detail" << endl;
+            string newdetail;
+            std::getline(std::cin, newdetail, '\n');
+            (*it)["detail"] = newdetail;
+            break;
+        }
+        case 'd':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "new price" << endl;
+            double newprice;
+        ipt1:
+            cin >> newprice;
+            if (newprice < 0)
+            {
+                cout << "Invalid price. Input again." << endl;
+                goto ipt1;
+            }
+            (*it)["price"] = newprice;
+            break;
+        }
+        case 'f':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "new discount" << endl;
+            float newdiscount;
+        ipt2:
+            cin >> newdiscount;
+            if (newdiscount < 0 || newdiscount > 1)
+            {
+                cout << "Invalid price. Input again." << endl;
+                goto ipt2;
+            }
+            (*it)["discount"] = newdiscount;
+            break;
+        }
+        case 'g':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "new stock" << endl;
+            unsigned long long newstock;
+            cin >> newstock;
+            (*it)["stock"] = newstock;
+            break;
+        }
+        case 'q':
+            return;
+        default:
+            system("cls");
+            cout << "ERROR: Invalid input." << endl;
+            cout << "Press any key to continue." << endl;
+            getch();
+        }
+    } while (true);
+}
