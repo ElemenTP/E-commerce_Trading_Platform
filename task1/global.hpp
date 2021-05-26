@@ -35,19 +35,6 @@ public:
      virtual double getPrice() const = 0;
      Merchandise() {}
      Merchandise(string ipttitle, string iptdes, double iptprice, float iptdiscount, unsigned long long iptstock) : title(ipttitle), detail(iptdes), price(iptprice), discount(iptdiscount), stock(iptstock) {}
-     //string getTitle() const { return title; }
-     //string getdetail() const { return detail; }
-     //double getprice() const { return price; }
-     //float getDiscount() const { return discount; }
-     bool isDicount() const
-     {
-          if (discount < 1)
-               return true;
-          else
-               return false;
-     }
-     double getToPay() const { return price * discount; }
-     //unsigned long long getStock() const { return stock; }
 };
 
 class Food : public Merchandise
