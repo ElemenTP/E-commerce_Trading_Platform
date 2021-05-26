@@ -60,7 +60,6 @@ void Page::runapp()
                 browseall();
             break;
         case 'q':
-            delete cur_usr;
             return;
         default:
             system("cls");
