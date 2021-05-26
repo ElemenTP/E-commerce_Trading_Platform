@@ -325,17 +325,15 @@ void Page::managemygood(vector<json>::iterator it)
 void Page::browseall()
 {
     json::iterator it_usr = data.begin();
-    vector<json> cur_shelf;
-    vector<json>::iterator it;
+    json::iterator it;
     Filter filter;
     while (true)
     {
         if ((*it_usr)["type"].get<int>() == business)
         {
-            cur_shelf = (*it_usr)["myShelves"].get<vector<json>>();
-            if (!cur_shelf.empty())
+            if (!(*it_usr)["myShelves"].empty())
             {
-                it = cur_shelf.begin();
+                it = (*it_usr)["myShelves"].begin();
                 break;
             }
         }
@@ -397,12 +395,11 @@ void Page::browseall()
         case 'a':
         {
             json::iterator tmp_usr = it_usr;
-            vector<json> tmp_shelf = cur_shelf;
-            vector<json>::iterator tmp = it;
+            json::iterator tmp = it;
             while (true)
             {
                 --it;
-                if (it >= cur_shelf.begin())
+                if (it >= (*it_usr)["myShelves"].begin())
                 {
                     if (filter.sift(*it))
                         break;
@@ -416,10 +413,9 @@ void Page::browseall()
                             break;
                         if ((*it_usr)["type"].get<int>() == business)
                         {
-                            cur_shelf = (*it_usr)["myShelves"].get<vector<json>>();
-                            if (!cur_shelf.empty())
+                            if (!(*it_usr)["myShelves"].empty())
                             {
-                                it = cur_shelf.end();
+                                it = (*it_usr)["myShelves"].end();
                                 break;
                             }
                         }
@@ -431,7 +427,6 @@ void Page::browseall()
                         cout << "Press any key to continue." << endl;
                         getch();
                         it_usr = tmp_usr;
-                        cur_shelf = tmp_shelf;
                         it = tmp;
                         break;
                     }
@@ -446,7 +441,6 @@ void Page::browseall()
                 if (cur_usr->getUserType() == client)
                 {
                     buygoods(it_usr, it);
-                    (*it_usr)["myShelves"] = cur_shelf;
                     storedata();
                 }
                 else
@@ -468,12 +462,11 @@ void Page::browseall()
         case 'd':
         {
             json::iterator tmp_usr = it_usr;
-            vector<json> tmp_shelf = cur_shelf;
-            vector<json>::iterator tmp = it;
+            json::iterator tmp = it;
             while (true)
             {
                 ++it;
-                if (it < cur_shelf.end())
+                if (it < (*it_usr)["myShelves"].end())
                 {
                     if (filter.sift(*it))
                         break;
@@ -487,10 +480,9 @@ void Page::browseall()
                             break;
                         if ((*it_usr)["type"].get<int>() == business)
                         {
-                            cur_shelf = (*it_usr)["myShelves"].get<vector<json>>();
-                            if (!cur_shelf.empty())
+                            if (!(*it_usr)["myShelves"].empty())
                             {
-                                it = cur_shelf.begin() - 1;
+                                it = (*it_usr)["myShelves"].begin() - 1;
                                 break;
                             }
                         }
@@ -502,7 +494,6 @@ void Page::browseall()
                         cout << "Press any key to continue." << endl;
                         getch();
                         it_usr = tmp_usr;
-                        cur_shelf = tmp_shelf;
                         it = tmp;
                         break;
                     }
@@ -515,12 +506,11 @@ void Page::browseall()
         {
             setfilter(&filter);
             json::iterator tmp_usr = it_usr;
-            vector<json> tmp_shelf = cur_shelf;
-            vector<json>::iterator tmp = it;
+            json::iterator tmp = it;
             while (true)
             {
                 ++it;
-                if (it < cur_shelf.end())
+                if (it < (*it_usr)["myShelves"].end())
                 {
                     if (filter.sift(*it))
                         break;
@@ -534,10 +524,9 @@ void Page::browseall()
                             break;
                         if ((*it_usr)["type"].get<int>() == business)
                         {
-                            cur_shelf = (*it_usr)["myShelves"].get<vector<json>>();
-                            if (!cur_shelf.empty())
+                            if (!(*it_usr)["myShelves"].empty())
                             {
-                                it = cur_shelf.begin() - 1;
+                                it = (*it_usr)["myShelves"].begin() - 1;
                                 break;
                             }
                         }
@@ -545,12 +534,11 @@ void Page::browseall()
                     if (it_usr >= data.end())
                     {
                         it_usr = tmp_usr;
-                        cur_shelf = tmp_shelf;
                         it = tmp;
                         while (true)
                         {
                             --it;
-                            if (it >= cur_shelf.begin())
+                            if (it >= (*it_usr)["myShelves"].begin())
                             {
                                 if (filter.sift(*it))
                                     break;
@@ -564,10 +552,9 @@ void Page::browseall()
                                         break;
                                     if ((*it_usr)["type"].get<int>() == business)
                                     {
-                                        cur_shelf = (*it_usr)["myShelves"].get<vector<json>>();
-                                        if (!cur_shelf.empty())
+                                        if (!(*it_usr)["myShelves"].empty())
                                         {
-                                            it = cur_shelf.end();
+                                            it = (*it_usr)["myShelves"].end();
                                             break;
                                         }
                                     }
@@ -580,7 +567,6 @@ void Page::browseall()
                                     getch();
                                     filter = Filter();
                                     it_usr = tmp_usr;
-                                    cur_shelf = tmp_shelf;
                                     it = tmp;
                                     break;
                                 }
@@ -603,7 +589,7 @@ void Page::browseall()
     }
 }
 
-void Page::buygoods(json::iterator it_usr, vector<json>::iterator it)
+void Page::buygoods(json::iterator it_usr, json::iterator it)
 {
     unsigned long long amount = 1;
     double total = (*it)["price"].get<double>() * (*it)["discount"].get<float>() * amount;

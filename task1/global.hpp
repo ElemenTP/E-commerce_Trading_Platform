@@ -184,7 +184,6 @@ public:
           cout << "Number of my products"
                << "\t" << myShelves.size() << endl;
      }
-     //const vector<json> *getMyShelves() const { return &myShelves; }
      vector<json> *changeMyShelves() { return (&myShelves); }
      friend void to_json(json &j, const Business &p);
      friend void from_json(const json &j, Business &p);
@@ -229,7 +228,7 @@ private:
      void storedata();
      void setfilter(Filter *filter);
      void setdiscountinbatch(vector<json> *myshelf);
-     void buygoods(json::iterator it_usr, vector<json>::iterator it);
+     void buygoods(json::iterator it_usr, json::iterator it);
 
 public:
      Page();
