@@ -203,6 +203,22 @@ public:
      friend void from_json(const json &j, Business &p);
 };
 
+class Filter
+{
+public:
+     bool title = false;
+     string title_filter;
+     bool type = false;
+     item_type type_filter;
+     bool price = false;
+     double price_low_filter = 0;
+     double price_high_filter = __DBL_MAX__;
+     bool discount = false;
+     bool stock = false;
+     Filter(){};
+     bool sift(json item) const;
+};
+
 class Page
 {
 private:
@@ -224,24 +240,11 @@ private:
      void managemygood(vector<json>::iterator it);
      json newgood();
      void storedata();
+     void setfilter(Filter *filter);
+     void setdiscountinbatch(vector<json> *myshelf);
 
 public:
      Page();
      void runapp();
 };
 
-class Filter
-{
-public:
-     bool title = false;
-     string title_filter;
-     bool type = false;
-     item_type type_filter;
-     bool price = false;
-     double price_low_filter = 0;
-     double price_high_filter = __DBL_MAX__;
-     bool discount = false;
-     bool stock = false;
-     Filter(){};
-     bool sift(json item) const;
-};

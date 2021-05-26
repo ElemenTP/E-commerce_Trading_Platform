@@ -523,43 +523,152 @@ void Page::managemyshelf()
             switch (getch())
             {
             case 'a':
-                --it;
+            {
+                vector<json>::iterator tmp = it;
+                while (true)
+                {
+                    --it;
+                    if (it >= myshelf->begin())
+                    {
+                        if (filter.sift(*it))
+                            break;
+                    }
+                    else
+                        break;
+                }
                 if (it < myshelf->begin())
                 {
                     system("cls");
                     cout << "No more." << endl;
                     cout << "Press any key to continue." << endl;
                     getch();
-                    it = myshelf->begin();
+                    it = tmp;
                 }
                 break;
+            }
             case 's':
                 managemygood(it);
                 storedata();
                 break;
             case 'd':
-                ++it;
+            {
+                vector<json>::iterator tmp = it;
+                while (true)
+                {
+                    ++it;
+                    if (it < myshelf->end())
+                    {
+                        if (filter.sift(*it))
+                            break;
+                    }
+                    else
+                        break;
+                }
                 if (it >= myshelf->end())
                 {
                     system("cls");
                     cout << "No more." << endl;
                     cout << "Press any key to continue." << endl;
                     getch();
-                    it = myshelf->end() - 1;
+                    it = tmp;
                 }
                 break;
+            }
             case 'f':
                 it = myshelf->insert(it, newgood());
                 storedata();
+                if (!filter.sift(*it))
+                    ++it;
                 break;
             case 'g':
                 it = myshelf->erase(it);
                 storedata();
+                if (!myshelf->empty())
+                {
+                    vector<json>::iterator tmp = it;
+                    while (true)
+                    {
+
+                        if (it < myshelf->end())
+                        {
+                            if (filter.sift(*it))
+                                break;
+                        }
+                        else
+                            break;
+                        ++it;
+                    }
+                    if (it >= myshelf->end())
+                    {
+                        it = tmp;
+                        while (true)
+                        {
+                            --it;
+                            if (it >= myshelf->begin())
+                            {
+                                if (filter.sift(*it))
+                                    break;
+                            }
+                            else
+                                break;
+                        }
+                        if (it < myshelf->begin())
+                        {
+                            system("cls");
+                            cout << "There is nothing fits the filter." << endl;
+                            cout << "Press any key to continue." << endl;
+                            getch();
+                            filter = Filter();
+                            it = tmp;
+                        }
+                    }
+                }
                 break;
             case 'h':
+            {
+                setfilter(&filter);
+                vector<json>::iterator tmp = it;
+                while (true)
+                {
+                    if (it < myshelf->end())
+                    {
+                        if (filter.sift(*it))
+                            break;
+                    }
+                    else
+                        break;
+                    ++it;
+                }
+                if (it >= myshelf->end())
+                {
+                    it = tmp;
+                    while (true)
+                    {
+                        --it;
+                        if (it >= myshelf->begin())
+                        {
+                            if (filter.sift(*it))
+                                break;
+                        }
+                        else
+                            break;
+                    }
+                    if (it < myshelf->begin())
+                    {
+                        system("cls");
+                        cout << "There is nothing fits the filter." << endl;
+                        cout << "Press any key to continue." << endl;
+                        getch();
+                        filter = Filter();
+                        it = tmp;
+                    }
+                }
 
                 break;
+            }
             case 'j':
+                setdiscountinbatch(myshelf);
+                storedata();
                 break;
             case 'q':
                 return;
@@ -739,6 +848,226 @@ void Page::managemygood(vector<json>::iterator it)
             (*it)["stock"] = newstock;
             break;
         }
+        case 'q':
+            return;
+        default:
+            system("cls");
+            cout << "ERROR: Invalid input." << endl;
+            cout << "Press any key to continue." << endl;
+            getch();
+        }
+    } while (true);
+}
+
+void Page::setdiscountinbatch(vector<json> *myshelf)
+{
+    int type = -1;
+    do
+    {
+        system("cls");
+        cout << "*******************Set discount in batch*******************" << endl;
+        cout << "Press A"
+             << "\t"
+             << "Food" << endl;
+        cout << "Press S"
+             << "\t"
+             << "Clothing" << endl;
+        cout << "Press D"
+             << "\t"
+             << "Book" << endl;
+        cout << "Press Q"
+             << "\t"
+             << "Go Back" << endl;
+        switch (getch())
+        {
+        case 'a':
+            type = food;
+            break;
+        case 's':
+            type = clothing;
+            break;
+        case 'd':
+            type = book;
+            break;
+        case 'q':
+            return;
+        default:
+            system("cls");
+            cout << "ERROR: Invalid input." << endl;
+            cout << "Press any key to continue." << endl;
+            getch();
+        }
+    } while (type < 0);
+    cout << "Input"
+         << "\t"
+         << "new discount" << endl;
+    float newdiscount;
+ipt4:
+    cin >> newdiscount;
+    if (newdiscount < 0 || newdiscount > 1)
+    {
+        cout << "Invalid price. Input again." << endl;
+        goto ipt4;
+    }
+    vector<json>::iterator it;
+    for (it = myshelf->begin(); it < myshelf->end(); ++it)
+    {
+        if ((*it)["type"].get<int>() == type)
+            (*it)["discount"] = newdiscount;
+    }
+}
+
+void Page::setfilter(Filter *filter)
+{
+    do
+    {
+        system("cls");
+        cout << "*************************Set Filter************************" << endl;
+        cout << "Filter by title"
+             << "\t"
+             << boolalpha << filter->title << endl;
+        cout << "Filter by type"
+             << "\t"
+             << boolalpha << filter->type << endl;
+        cout << "Filter by price"
+             << "\t"
+             << boolalpha << filter->price << endl;
+        cout << "Filter by discount"
+             << "\t"
+             << boolalpha << filter->discount << endl;
+        cout << "Filter by stock"
+             << "\t"
+             << boolalpha << filter->stock << endl;
+        cout << "Press A"
+             << "\t"
+             << "Change title filter" << endl;
+        cout << "Press S"
+             << "\t"
+             << "Change type filter" << endl;
+        cout << "Press D"
+             << "\t"
+             << "Change price filter" << endl;
+        cout << "Press F"
+             << "\t"
+             << "Change discount filter" << endl;
+        cout << "Press G"
+             << "\t"
+             << "Change stock filter" << endl;
+        cout << "Press H"
+             << "\t"
+             << "Reset all filter" << endl;
+        cout << "Press Q"
+             << "\t"
+             << "Go Back" << endl;
+        switch (getch())
+        {
+        case 'a':
+        {
+            if (filter->title)
+                filter->title = false;
+            else
+            {
+                cout << "Input"
+                     << "\t"
+                     << "Value of title filter" << endl;
+                cin >> filter->title_filter;
+                filter->title = true;
+            }
+            break;
+        }
+        case 's':
+        {
+            if (filter->type)
+                filter->type = false;
+            else
+            {
+                int type = -1;
+                do
+                {
+                    system("cls");
+                    cout << "*****************Set Value of type filter******************" << endl;
+                    cout << "Press A"
+                         << "\t"
+                         << "Food" << endl;
+                    cout << "Press S"
+                         << "\t"
+                         << "Clothing" << endl;
+                    cout << "Press D"
+                         << "\t"
+                         << "Book" << endl;
+                    cout << "Press Q"
+                         << "\t"
+                         << "Go Back" << endl;
+                    switch (getch())
+                    {
+                    case 'a':
+                        type = food;
+                        break;
+                    case 's':
+                        type = clothing;
+                        break;
+                    case 'd':
+                        type = book;
+                        break;
+                    case 'q':
+                        type = 114514;
+                    default:
+                        system("cls");
+                        cout << "ERROR: Invalid input." << endl;
+                        cout << "Press any key to continue." << endl;
+                        getch();
+                    }
+                } while (type < 0);
+                if (type != 114514)
+                {
+                    filter->type_filter = (item_type)type;
+                    filter->type = true;
+                }
+            }
+            break;
+        }
+        case 'd':
+        {
+            if (filter->price)
+                filter->price = false;
+            else
+            {
+                double newprice;
+                cout << "Input"
+                     << "\t"
+                     << "Value of price filter, low" << endl;
+            ipt5:
+                cin >> newprice;
+                if (newprice < 0)
+                {
+                    cout << "Invalid price. Input again." << endl;
+                    goto ipt5;
+                }
+                filter->price_low_filter = newprice;
+                cout << "Input"
+                     << "\t"
+                     << "Value of price filter, high" << endl;
+            ipt6:
+                cin >> newprice;
+                if (newprice < 0 || newprice < filter->price_low_filter)
+                {
+                    cout << "Invalid price. Input again." << endl;
+                    goto ipt6;
+                }
+                filter->price_high_filter = newprice;
+                filter->price = true;
+            }
+            break;
+        }
+        case 'f':
+            filter->discount = !(filter->discount);
+            break;
+        case 'g':
+            filter->stock = !(filter->stock);
+            break;
+        case 'h':
+            *filter = Filter();
+            break;
         case 'q':
             return;
         default:

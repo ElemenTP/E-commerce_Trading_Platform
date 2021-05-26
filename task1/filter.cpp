@@ -6,7 +6,7 @@ bool Filter::sift(json item) const
 {
     if (title)
     {
-        if (item["title"].get<string>().find(title_filter) == __UINT32_MAX__)
+        if (item["title"].get<string>().find(title_filter) == item["title"].get<string>().npos)
             return false;
     }
     if (type)
