@@ -443,6 +443,7 @@ void Page::managemyshelf()
 {
     vector<json> *myshelf = ((Business *)cur_usr)->changeMyShelves();
     vector<json>::iterator it = myshelf->begin();
+    Filter filter;
     do
     {
         system("cls");
@@ -510,6 +511,12 @@ void Page::managemyshelf()
             cout << "Press G"
                  << "\t"
                  << "Delete this" << endl;
+            cout << "Press H"
+                 << "\t"
+                 << "Set filter" << endl;
+            cout << "Press J"
+                 << "\t"
+                 << "Set discount in batch" << endl;
             cout << "Press Q"
                  << "\t"
                  << "Go Back" << endl;
@@ -548,6 +555,11 @@ void Page::managemyshelf()
             case 'g':
                 it = myshelf->erase(it);
                 storedata();
+                break;
+            case 'h':
+
+                break;
+            case 'j':
                 break;
             case 'q':
                 return;

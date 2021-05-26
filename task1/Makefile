@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-O2
 
-objects = main.o friend.o page.o
+objects = main.o friend.o page.o filter.o
 
 ECTP: $(objects)
 	$(CC) $(objects) -o ECTP.exe
@@ -12,6 +12,8 @@ friend.o: global.hpp json.hpp friend.cpp
 	$(CC) $(CFLAGS) -c friend.cpp
 page.o: global.hpp json.hpp page.cpp
 	$(CC) $(CFLAGS) -c page.cpp
+filter.o: global.hpp json.hpp filter.cpp
+	$(CC) $(CFLAGS) -c filter.cpp
 
 .PHONY: clean
 clean:

@@ -197,7 +197,7 @@ public:
           cout << "Number of my products"
                << "\t" << myShelves.size() << endl;
      }
-     const vector<json> *getMyShelves() const { return &myShelves; }
+     //const vector<json> *getMyShelves() const { return &myShelves; }
      vector<json> *changeMyShelves() { return (&myShelves); }
      friend void to_json(json &j, const Business &p);
      friend void from_json(const json &j, Business &p);
@@ -228,4 +228,20 @@ private:
 public:
      Page();
      void runapp();
+};
+
+class Filter
+{
+public:
+     bool title = false;
+     string title_filter;
+     bool type = false;
+     item_type type_filter;
+     bool price = false;
+     double price_low_filter = 0;
+     double price_high_filter = __DBL_MAX__;
+     bool discount = false;
+     bool stock = false;
+     Filter(){};
+     bool sift(json item) const;
 };
