@@ -446,6 +446,7 @@ void Page::browseall()
                 if (cur_usr->getUserType() == client)
                 {
                     buygoods(it_usr, it);
+                    (*it_usr)["myShelves"] = cur_shelf;
                     storedata();
                 }
                 else
@@ -604,8 +605,71 @@ void Page::browseall()
 
 void Page::buygoods(json::iterator it_usr, vector<json>::iterator it)
 {
+    unsigned long long amount = 1;
+    double total = (*it)["price"].get<double>() * (*it)["discount"].get<float>() * amount;
     do
     {
-
+        system("cls");
+        cout << "****************************Buy****************************" << endl;
+        cout << "Stock"
+             << "\t"
+             << (*it)["stock"].get<unsigned long long>() << " Pcs" << endl;
+        cout << "You buy"
+             << "\t"
+             << amount << " Pcs" << endl;
+        cout << "You need to pay"
+             << "\t"
+             << total << endl;
+        cout << "Press A"
+             << "\t"
+             << "Change the quantity to purchase" << endl;
+        if (amount <= (*it)["stock"].get<unsigned long long>() && total <= cur_usr->getBalance())
+            cout << "Press D"
+                 << "\t"
+                 << "Purchase" << endl;
+        cout << "Press Q"
+             << "\t"
+             << "Go Back" << endl;
+        switch (getch())
+        {
+        case 'a':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "New quantity" << endl;
+            cin >> amount;
+            total = (*it)["price"].get<double>() * (*it)["discount"].get<float>() * amount;
+            break;
+        }
+        case 'd':
+        {
+            if (amount > (*it)["stock"].get<unsigned long long>() || total > cur_usr->getBalance())
+            {
+                system("cls");
+                cout << "ERROR: Invalid input." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+            }
+            else
+            {
+                (*it)["stock"] = (*it)["stock"].get<unsigned long long>() - amount;
+                cur_usr->changeBalance(-total);
+                (*it_usr)["balance"] = (*it_usr)["balance"].get<double>() + total;
+                system("cls");
+                cout << "Purchase was successful." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+                return;
+            }
+            break;
+        }
+        case 'q':
+            return;
+        default:
+            system("cls");
+            cout << "ERROR: Invalid input." << endl;
+            cout << "Press any key to continue." << endl;
+            getch();
+        }
     } while (true);
 }
