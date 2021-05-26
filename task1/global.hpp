@@ -242,9 +242,9 @@ private:
      void storedata();
      void setfilter(Filter *filter);
      void setdiscountinbatch(vector<json> *myshelf);
+     void buygoods(json::iterator it_usr, vector<json>::iterator it);
 
 public:
      Page();
      void runapp();
 };
-
