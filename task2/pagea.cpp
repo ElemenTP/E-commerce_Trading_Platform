@@ -2,7 +2,7 @@
 #include <conio.h>
 using namespace std;
 using json = nlohmann::json;
-
+//构造函数，从文件中读出数据
 Page::Page()
 {
     iptdata.open("datafile.json");
@@ -20,7 +20,7 @@ void Page::runapp()
         cout << "Press A"
              << "\t"
              << "Sign Up" << endl;
-        if (!data.empty())
+        if (!data.empty()) //如果没有信息则只能注册
         {
             cout << "Press S"
                  << "\t"
@@ -67,7 +67,7 @@ void Page::runapp()
             cout << "Press any key to continue." << endl;
             getch();
         }
-        if (cur_usr)
+        if (cur_usr) //已经注册或者登录则进入个人中心界面
             accouthome();
     } while (true);
 }
@@ -121,7 +121,7 @@ void Page::signupipt(usr_type type)
              << "\t"
              << "Name of the new account" << endl;
         std::getline(std::cin, iptname, '\n');
-        for (it = data.begin(); it < data.end(); ++it)
+        for (it = data.begin(); it < data.end(); ++it) //检查用户名是否已存在
         {
             if ((*it)["name"].get<string>() == iptname)
             {
@@ -171,7 +171,7 @@ void Page::signinipt()
              << "Password of the account" << endl;
         std::getline(std::cin, iptpasswd, '\n');
         ;
-        for (usr_json = data.begin(); usr_json < data.end(); ++usr_json)
+        for (usr_json = data.begin(); usr_json < data.end(); ++usr_json) //检查是否有该用户名和密码
         {
             if ((*usr_json)["name"].get<string>() == iptname && (*usr_json)["passwd"].get<string>() == iptpasswd)
             {
@@ -226,7 +226,7 @@ void Page::accouthome()
         cout << "Input G"
              << "\t"
              << "Browse all products" << endl;
-        if (cur_usr->getUserType() == business)
+        if (cur_usr->getUserType() == business) //对商家显示货架，对顾客显示订单
             cout << "Input H"
                  << "\t"
                  << "Manage my shelf" << endl;
@@ -285,14 +285,14 @@ void Page::changename()
              << "Your password" << endl;
         std::getline(std::cin, iptpasswd, '\n');
         ;
-        if (cur_usr->checkpasswd(iptpasswd))
+        if (cur_usr->checkpasswd(iptpasswd)) //检查密码是否正确
         {
             cout << "Input"
                  << "\t"
                  << "New name" << endl;
             std::getline(std::cin, newname, '\n');
             int it;
-            for (it = data.size() - 1; it >= 0; --it)
+            for (it = data.size() - 1; it >= 0; --it) //检查新用户名是否已经被使用
             {
                 if (data[it]["name"].get<string>() == newname)
                 {
@@ -379,7 +379,7 @@ void Page::recharge()
              << "\t"
              << "The amount of the top-up" << endl;
         cin >> money;
-        if (money > 0 && (cur_usr->getBalance() + money) < __DBL_MAX__)
+        if (money > 0 && (cur_usr->getBalance() + money) < __DBL_MAX__) //检查充值金额是否合法
         {
             cur_usr->changeBalance(money);
             storedata();
@@ -415,7 +415,7 @@ void Page::withdrawals()
              << "\t"
              << "The amount of the withdrawal" << endl;
         cin >> money;
-        if (money > 0 && (cur_usr->getBalance() - money) > 0)
+        if (money > 0 && (cur_usr->getBalance() - money) > 0) //检查提款金额是否合法
         {
             cur_usr->changeBalance(-money);
             storedata();
@@ -443,13 +443,13 @@ void Page::withdrawals()
 void Page::managemyshelf()
 {
     vector<json> *myshelf = ((Business *)cur_usr)->changeMyShelves();
-    vector<json>::iterator it = myshelf->begin();
-    Filter filter;
+    vector<json>::iterator it = myshelf->begin(); //容器枚举器
+    Filter filter;                                //筛选器对象
     do
     {
         system("cls");
         cout << "**************************My Shelf*************************" << endl;
-        if (myshelf->empty())
+        if (myshelf->empty()) //货架为空
         {
             cout << "Empty" << endl;
             cout << "Press F"
@@ -474,9 +474,9 @@ void Page::managemyshelf()
                 getch();
             }
         }
-        else
+        else //货架非空
         {
-            switch ((*it)["type"].get<int>())
+            switch ((*it)["type"].get<int>()) //输出当前商品详情
             {
             case food:
             {
@@ -523,7 +523,7 @@ void Page::managemyshelf()
                  << "Go Back" << endl;
             switch (getch())
             {
-            case 'a':
+            case 'a': //向前遍历寻找符合筛选条件的货品，找不到则提示没了
             {
                 vector<json>::iterator tmp = it;
                 while (true)
@@ -550,7 +550,7 @@ void Page::managemyshelf()
                 managemygood(it);
                 storedata();
                 break;
-            case 'd':
+            case 'd': //向后遍历寻找符合筛选条件的货品，找不到则提示没了
             {
                 vector<json>::iterator tmp = it;
                 while (true)
@@ -576,13 +576,13 @@ void Page::managemyshelf()
             case 'f':
                 it = myshelf->insert(it, newgood());
                 storedata();
-                if (!filter.sift(*it))
+                if (!filter.sift(*it)) //如果添加的新商品不符合筛选标准则回退添加前位置
                     ++it;
                 break;
             case 'g':
                 it = myshelf->erase(it);
                 storedata();
-                if (!myshelf->empty())
+                if (!myshelf->empty()) //删除单个商品后如果货架不空则寻找符合筛选条件的商品，先向后寻找再向前寻找，找不到则提示没有，并重置筛选条件
                 {
                     vector<json>::iterator tmp = it;
                     while (true)
@@ -623,7 +623,7 @@ void Page::managemyshelf()
                 break;
             case 'h':
             {
-                setfilter(&filter);
+                setfilter(&filter); //设置筛选条件后寻找符合筛选条件的商品，先向后寻找再向前寻找，找不到则提示没有，并重置筛选条件
                 vector<json>::iterator tmp = it;
                 while (true)
                 {

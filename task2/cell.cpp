@@ -1,7 +1,7 @@
 #include "global.hpp"
 using namespace std;
 using json = nlohmann::json;
-
+//输出订单详情
 void Cell::printdes()
 {
      switch ((*it)["type"].get<int>())
@@ -33,11 +33,11 @@ void Cell::printdes()
      cout << "Need to pay"
           << "\t" << gettopay() << endl;
 }
-
+//返回订单实付
 double Cell::gettopay() { return (*it)["price"].get<double>() * (*it)["discount"].get<float>() * amount; }
-
+//返回货品库存
 unsigned long long Cell::getstock() { return (*it)["stock"].get<unsigned long long>(); }
-
+//下订单操作
 void Cell::toorder()
 {
      (*it)["stock"] = (*it)["stock"].get<unsigned long long>() - amount;
@@ -46,7 +46,7 @@ void Cell::toorder()
      else
           (*it)["locked"] = amount;
 }
-
+//取消订单操作
 void Cell::outorder()
 {
      (*it)["stock"] = (*it)["stock"].get<unsigned long long>() + amount;
@@ -54,7 +54,7 @@ void Cell::outorder()
      if ((*it)["locked"].get<unsigned long long>() == 0)
           it->erase("locked");
 }
-
+//支付订单操作
 void Cell::purchased()
 {
      (*it)["locked"] = (*it)["locked"].get<unsigned long long>() - amount;

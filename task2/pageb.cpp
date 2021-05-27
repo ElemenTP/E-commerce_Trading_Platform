@@ -9,7 +9,7 @@ void Page::setfilter(Filter *filter)
     {
         system("cls");
         cout << "*************************Set Filter************************" << endl;
-        cout << "Filter by title"
+        cout << "Filter by title" //显示筛选器状态
              << "\t"
              << boolalpha << filter->title << endl;
         cout << "Filter by type"
@@ -324,11 +324,11 @@ void Page::managemygood(vector<json>::iterator it)
 
 void Page::browseall()
 {
-    vector<Cell> shoppingcart;
-    json::iterator it_usr = data.begin();
-    json::iterator it;
-    Filter filter;
-    while (true)
+    vector<Cell> shoppingcart;            //购物车
+    json::iterator it_usr = data.begin(); //卖家用户迭代器
+    json::iterator it;                    //商品迭代器
+    Filter filter;                        //筛选器对象
+    while (true)                          //找到第一个货架非空的卖家
     {
         if ((*it_usr)["type"].get<int>() == business)
         {
@@ -339,7 +339,7 @@ void Page::browseall()
             }
         }
         ++it_usr;
-        if (it_usr == data.end())
+        if (it_usr == data.end()) //不存在这样的卖家，即没有商品可以展示
         {
             system("cls");
             cout << "**************************Shelves**************************" << endl;
@@ -353,7 +353,7 @@ void Page::browseall()
     {
         system("cls");
         cout << "**************************Shelves**************************" << endl;
-        switch ((*it)["type"].get<int>())
+        switch ((*it)["type"].get<int>()) //展示当前商品的信息
         {
         case food:
         {
@@ -375,14 +375,14 @@ void Page::browseall()
         }
         }
         if (cur_usr)
-            if (cur_usr->getUserType() == client)
+            if (cur_usr->getUserType() == client) //如果用户是客户则展示购物车中商品数量
                 cout << "My cart"
                      << "\t" << shoppingcart.size() << " items" << endl;
         cout << "Press A"
              << "\t"
              << "Previous" << endl;
         if (cur_usr)
-            if (cur_usr->getUserType() == client)
+            if (cur_usr->getUserType() == client) //如果用户是客户则可以添商品到购物车
                 cout << "Press S"
                      << "\t"
                      << "Add to cart" << endl;
@@ -391,7 +391,7 @@ void Page::browseall()
              << "Next" << endl;
         if (cur_usr)
         {
-            if (cur_usr->getUserType() == client)
+            if (cur_usr->getUserType() == client) //如果用户是客户则可以管理购物车和订单
             {
                 cout << "Press F"
                      << "\t"
@@ -413,7 +413,7 @@ void Page::browseall()
         {
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true)
+            while (true) //向前寻找符合筛选条件的商品，没有则向前寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，提示找不到并回到之前的状态
             {
                 --it;
                 if (it >= (*it_usr)["myShelves"].begin())
@@ -490,7 +490,7 @@ void Page::browseall()
         {
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true)
+            while (true) //向后寻找符合筛选条件的商品，没有则向后寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，提示找不到并回到之前的状态
             {
                 ++it;
                 if (it < (*it_usr)["myShelves"].end())
@@ -579,7 +579,7 @@ void Page::browseall()
             setfilter(&filter);
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true)
+            while (true) //设置筛选器后先向后寻找符合筛选条件的商品，没有则向后寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，向前寻找符合筛选条件的商品，没有则向前寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，提示找不到并回到之前的状态，并重置筛选器
             {
                 ++it;
                 if (it < (*it_usr)["myShelves"].end())
@@ -665,14 +665,14 @@ void Page::managemyorder()
 {
     vector<Cell> *myorder = ((Client *)cur_usr)->manageorder();
     vector<Cell>::iterator it = myorder->begin();
-    double total = 0;
+    double total = 0; //订单总价
     for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
         total += it_tmp->gettopay();
     do
     {
         system("cls");
         cout << "**************************My Order*************************" << endl;
-        if (myorder->empty())
+        if (myorder->empty()) //没有订单则提示为空，只能返回
         {
             cout << "Empty" << endl;
             cout << "Press any key to go back." << endl;
@@ -681,8 +681,8 @@ void Page::managemyorder()
         }
         else
         {
-            it->printdes();
-            cout << "In total to pay"
+            it->printdes();           //显示订单中当前条目详情
+            cout << "In total to pay" //显示订单总价
                  << "\t"
                  << total << endl;
         }
@@ -730,7 +730,7 @@ void Page::managemyorder()
             break;
         }
         case 'f':
-            if (cur_usr->getBalance() < total)
+            if (cur_usr->getBalance() < total) //余额足够则可支付，否则提示无钱
             {
                 system("cls");
                 cout << "The balance is insufficient." << endl;
@@ -741,7 +741,7 @@ void Page::managemyorder()
             {
                 cur_usr->changeBalance(-total);
                 for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
-                    it->purchased();
+                    it_tmp->purchased();
                 myorder->clear();
                 storedata();
                 system("cls");
@@ -752,7 +752,7 @@ void Page::managemyorder()
             break;
         case 'h':
             for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
-                it->outorder();
+                it_tmp->outorder();
             myorder->clear();
             system("cls");
             cout << "Order canceled." << endl;
@@ -773,7 +773,7 @@ void Page::managemyorder()
 void Page::managemycart(vector<Cell> *shoppingcart)
 {
     vector<Cell>::iterator it = shoppingcart->begin();
-    double total = 0;
+    double total = 0; //购物车总价
     for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
         total += it_tmp->gettopay();
     do
@@ -862,10 +862,10 @@ void Page::managemycart(vector<Cell> *shoppingcart)
         }
         case 'f':
         {
-            if (((Client *)cur_usr)->manageorder()->empty())
+            if (((Client *)cur_usr)->manageorder()->empty()) //没有已存在订单才能添加订单
             {
                 for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
-                    it->toorder();
+                    it_tmp->toorder();
                 ((Client *)cur_usr)->manageorder()->swap(*shoppingcart);
                 system("cls");
                 cout << "The order has been generated." << endl;
