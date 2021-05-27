@@ -9,7 +9,7 @@ void Page::setfilter(Filter *filter)
     {
         system("cls");
         cout << "*************************Set Filter************************" << endl;
-        cout << "Filter by title"
+        cout << "Filter by title" //显示筛选器状态
              << "\t"
              << boolalpha << filter->title << endl;
         cout << "Filter by type"
@@ -324,10 +324,10 @@ void Page::managemygood(vector<json>::iterator it)
 
 void Page::browseall()
 {
-    json::iterator it_usr = data.begin();
-    json::iterator it;
-    Filter filter;
-    while (true)
+    json::iterator it_usr = data.begin(); //卖家用户迭代器
+    json::iterator it;                    //商品迭代器
+    Filter filter;                        //筛选器对象
+    while (true)                          //找到第一个货架非空的卖家
     {
         if ((*it_usr)["type"].get<int>() == business)
         {
@@ -338,7 +338,7 @@ void Page::browseall()
             }
         }
         ++it_usr;
-        if (it_usr == data.end())
+        if (it_usr == data.end()) //不存在这样的卖家，即没有商品可以展示
         {
             system("cls");
             cout << "**************************Shelves**************************" << endl;
@@ -352,7 +352,7 @@ void Page::browseall()
     {
         system("cls");
         cout << "**************************Shelves**************************" << endl;
-        switch ((*it)["type"].get<int>())
+        switch ((*it)["type"].get<int>()) //展示当前商品的信息
         {
         case food:
         {
@@ -377,7 +377,7 @@ void Page::browseall()
              << "\t"
              << "Previous" << endl;
         if (cur_usr)
-            if (cur_usr->getUserType() == client)
+            if (cur_usr->getUserType() == client) //如果用户是客户则可以购买商品
                 cout << "Press S"
                      << "\t"
                      << "Buy" << endl;
@@ -396,7 +396,7 @@ void Page::browseall()
         {
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true)
+            while (true) //向前寻找符合筛选条件的商品，没有则向前寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，提示找不到并回到之前的状态
             {
                 --it;
                 if (it >= (*it_usr)["myShelves"].begin())
@@ -463,7 +463,7 @@ void Page::browseall()
         {
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true)
+            while (true) //向后寻找符合筛选条件的商品，没有则向后寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，提示找不到并回到之前的状态
             {
                 ++it;
                 if (it < (*it_usr)["myShelves"].end())
@@ -507,7 +507,7 @@ void Page::browseall()
             setfilter(&filter);
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true)
+            while (true) //设置筛选器后先向后寻找符合筛选条件的商品，没有则向后寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，向前寻找符合筛选条件的商品，没有则向前寻找一个货架非空的卖家，在该卖家的商品中继续寻找，仍然找不到则重复到找到为止。如果找完了所有也未找到，提示找不到并回到之前的状态，并重置筛选器
             {
                 ++it;
                 if (it < (*it_usr)["myShelves"].end())
@@ -609,7 +609,7 @@ void Page::buygoods(json::iterator it_usr, json::iterator it)
         cout << "Press A"
              << "\t"
              << "Change the quantity to purchase" << endl;
-        if (amount <= (*it)["stock"].get<unsigned long long>() && total <= cur_usr->getBalance())
+        if (amount <= (*it)["stock"].get<unsigned long long>() && total <= cur_usr->getBalance()) //库存足够，余额足够才可购买
             cout << "Press D"
                  << "\t"
                  << "Purchase" << endl;
