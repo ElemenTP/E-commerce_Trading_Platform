@@ -667,7 +667,7 @@ void Page::managemyorder()
     vector<Cell>::iterator it = myorder->begin();
     double total = 0;
     for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
-        total += it->gettopay();
+        total += it_tmp->gettopay();
     do
     {
         system("cls");
@@ -775,7 +775,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
     vector<Cell>::iterator it = shoppingcart->begin();
     double total = 0;
     for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
-        total += it->gettopay();
+        total += it_tmp->gettopay();
     do
     {
         system("cls");
@@ -844,7 +844,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
             }
             total = 0;
             for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
-                total += it->gettopay();
+                total += it_tmp->gettopay();
             break;
         }
         case 'd':
@@ -886,7 +886,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
             it = shoppingcart->erase(it);
             total = 0;
             for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
-                total += it->gettopay();
+                total += it_tmp->gettopay();
             break;
         case 'h':
             shoppingcart->clear();
