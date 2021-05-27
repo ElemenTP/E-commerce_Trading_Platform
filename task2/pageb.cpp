@@ -385,7 +385,7 @@ void Page::browseall()
             if (cur_usr->getUserType() == client)
                 cout << "Press S"
                      << "\t"
-                     << "Add one to cart" << endl;
+                     << "Add to cart" << endl;
         cout << "Press D"
              << "\t"
              << "Next" << endl;
@@ -457,7 +457,16 @@ void Page::browseall()
             {
                 if (cur_usr->getUserType() == client)
                 {
-                    shoppingcart.push_back(Cell(it_usr, it, 1));
+                    unsigned long long quantity;
+                    cout << "Input the quantity to add" << endl;
+                ipt8:
+                    cin >> quantity;
+                    if (quantity > (*it)["stock"].get<unsigned long long>())
+                    {
+                        cout << "Invalid quantity. Input it again." << endl;
+                        goto ipt8;
+                    }
+                    shoppingcart.push_back(Cell(it_usr, it, quantity));
                     cout << "Item added." << endl;
                     getch();
                 }
@@ -520,10 +529,50 @@ void Page::browseall()
             break;
         }
         case 'f':
-            managemycart(&shoppingcart);
+            if (cur_usr)
+            {
+                if (cur_usr->getUserType() == client)
+                {
+                    managemycart(&shoppingcart);
+                }
+                else
+                {
+                    system("cls");
+                    cout << "ERROR: Invalid input." << endl;
+                    cout << "Press any key to continue." << endl;
+                    getch();
+                }
+            }
+            else
+            {
+                system("cls");
+                cout << "ERROR: Invalid input." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+            }
             break;
         case 'g':
-            managemyorder();
+            if (cur_usr)
+            {
+                if (cur_usr->getUserType() == client)
+                {
+                    managemyorder();
+                }
+                else
+                {
+                    system("cls");
+                    cout << "ERROR: Invalid input." << endl;
+                    cout << "Press any key to continue." << endl;
+                    getch();
+                }
+            }
+            else
+            {
+                system("cls");
+                cout << "ERROR: Invalid input." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+            }
             break;
         case 'h':
         {
@@ -640,18 +689,12 @@ void Page::managemyorder()
         cout << "Press A"
              << "\t"
              << "Previous" << endl;
-        cout << "Press S"
-             << "\t"
-             << "Change amount" << endl;
         cout << "Press D"
              << "\t"
              << "Next" << endl;
         cout << "Press F"
              << "\t"
              << "Purchase" << endl;
-        cout << "Press G"
-             << "\t"
-             << "Delete this" << endl;
         cout << "Press H"
              << "\t"
              << "Cancel order" << endl;
@@ -672,17 +715,6 @@ void Page::managemyorder()
                 ++it;
             }
         }
-        case 's':
-        {
-            cout << "Input"
-                 << "\t"
-                 << "New amount" << endl;
-            cin >> it->amount;
-            total = 0;
-            for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
-                total += it->gettopay();
-            break;
-        }
         case 'd':
         {
             ++it;
@@ -696,15 +728,34 @@ void Page::managemyorder()
             }
         }
         case 'f':
-            break;
-        case 'g':
-            it = myorder->erase(it);
-            total = 0;
-            for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
-                total += it->gettopay();
+            if (cur_usr->getBalance() < total)
+            {
+                system("cls");
+                cout << "The balance is insufficient." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+            }
+            else
+            {
+                cur_usr->changeBalance(-total);
+                for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
+                    it->purchased();
+                myorder->clear();
+                storedata();
+                system("cls");
+                cout << "The purchase is successful." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+            }
             break;
         case 'h':
+            for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
+                it->outorder();
             myorder->clear();
+            system("cls");
+            cout << "Order canceled." << endl;
+            cout << "Press any key to continue." << endl;
+            getch();
             break;
         case 'q':
             return;
@@ -781,7 +832,16 @@ void Page::managemycart(vector<Cell> *shoppingcart)
             cout << "Input"
                  << "\t"
                  << "New amount" << endl;
+        ipt9:
             cin >> it->amount;
+            if (it->amount > it->getstock())
+            {
+                cout << "Invalid quantity. Input it again." << endl;
+                goto ipt9;
+            }
+            total = 0;
+            for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
+                total += it->gettopay();
             break;
         }
         case 'd':
@@ -797,9 +857,32 @@ void Page::managemycart(vector<Cell> *shoppingcart)
             }
         }
         case 'f':
+        {
+            if (((Client *)cur_usr)->manageorder()->empty())
+            {
+                for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
+                    it->toorder();
+                ((Client *)cur_usr)->manageorder()->swap(*shoppingcart);
+                system("cls");
+                cout << "The order has been generated." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+                managemyorder();
+            }
+            else
+            {
+                system("cls");
+                cout << "There is already an order." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+            }
             break;
+        }
         case 'g':
             it = shoppingcart->erase(it);
+            total = 0;
+            for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
+                total += it->gettopay();
             break;
         case 'h':
             shoppingcart->clear();

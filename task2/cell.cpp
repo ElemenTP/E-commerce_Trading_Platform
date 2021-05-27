@@ -41,17 +41,24 @@ unsigned long long Cell::getstock() { return (*it)["stock"].get<unsigned long lo
 void Cell::toorder()
 {
      (*it)["stock"] = (*it)["stock"].get<unsigned long long>() - amount;
-     (*it)["locked"] = amount;
+     if ((*it)["locked"].is_object())
+          (*it)["locked"] = (*it)["locked"].get<unsigned long long>() + amount;
+     else
+          (*it)["locked"] = amount;
 }
 
 void Cell::outorder()
 {
      (*it)["stock"] = (*it)["stock"].get<unsigned long long>() + amount;
-     it->erase("locked");
+     (*it)["locked"] = (*it)["locked"].get<unsigned long long>() - amount;
+     if ((*it)["locked"].get<unsigned long long>() == 0)
+          it->erase("locked");
 }
 
 void Cell::purchased()
 {
-     it->erase("locked");
+     (*it)["locked"] = (*it)["locked"].get<unsigned long long>() - amount;
+     if ((*it)["locked"].get<unsigned long long>() == 0)
+          it->erase("locked");
      (*it_usr)["balance"] = (*it_usr)["balance"].get<double>() + gettopay();
 }
