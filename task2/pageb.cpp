@@ -714,6 +714,7 @@ void Page::managemyorder()
                 getch();
                 ++it;
             }
+            break;
         }
         case 'd':
         {
@@ -726,6 +727,7 @@ void Page::managemyorder()
                 getch();
                 --it;
             }
+            break;
         }
         case 'f':
             if (cur_usr->getBalance() < total)
@@ -826,6 +828,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
                 getch();
                 ++it;
             }
+            break;
         }
         case 's':
         {
@@ -855,6 +858,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
                 getch();
                 --it;
             }
+            break;
         }
         case 'f':
         {
