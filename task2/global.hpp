@@ -130,6 +130,7 @@ public:
           json::iterator it, unsigned long long amount) : it_usr(it_usr), it(it), amount(amount) {}
      void printdes();
      double gettopay();
+     unsigned long long getstock();
      void toorder();
      void outorder();
      void purchased();

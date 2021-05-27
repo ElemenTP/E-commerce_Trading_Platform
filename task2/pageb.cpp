@@ -622,7 +622,7 @@ void Page::managemyorder()
     do
     {
         system("cls");
-        cout << "**************************My Shelf*************************" << endl;
+        cout << "**************************My Order*************************" << endl;
         if (myorder->empty())
         {
             cout << "Empty" << endl;
@@ -646,9 +646,15 @@ void Page::managemyorder()
         cout << "Press D"
              << "\t"
              << "Next" << endl;
+        cout << "Press F"
+             << "\t"
+             << "Purchase" << endl;
         cout << "Press G"
              << "\t"
              << "Delete this" << endl;
+        cout << "Press H"
+             << "\t"
+             << "Cancel order" << endl;
         cout << "Press Q"
              << "\t"
              << "Go Back" << endl;
@@ -656,95 +662,49 @@ void Page::managemyorder()
         {
         case 'a':
         {
-            vector<json>::iterator tmp = it;
-            while (true)
+            --it;
+            if (it < myorder->begin())
             {
-                --it;
-                if (it >= myorder->begin())
-                {
-                    if (filter.sift(*it))
-                        break;
-                }
-                else
-                {
-                    system("cls");
-                    cout << "No more." << endl;
-                    cout << "Press any key to continue." << endl;
-                    getch();
-                    it = tmp;
-                    break;
-                }
+                system("cls");
+                cout << "No more." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+                ++it;
             }
-            break;
         }
         case 's':
-            managemygood(it);
-            storedata();
-            break;
-        case 'd':
         {
-            vector<json>::iterator tmp = it;
-            while (true)
-            {
-                ++it;
-                if (it < myorder->end())
-                {
-                    if (filter.sift(*it))
-                        break;
-                }
-                else
-                {
-                    system("cls");
-                    cout << "No more." << endl;
-                    cout << "Press any key to continue." << endl;
-                    getch();
-                    it = tmp;
-                    break;
-                }
-            }
+            cout << "Input"
+                 << "\t"
+                 << "New amount" << endl;
+            cin >> it->amount;
+            total = 0;
+            for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
+                total += it->gettopay();
             break;
         }
+        case 'd':
+        {
+            ++it;
+            if (it >= myorder->end())
+            {
+                system("cls");
+                cout << "No more." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+                --it;
+            }
+        }
+        case 'f':
+            break;
         case 'g':
             it = myorder->erase(it);
-            storedata();
-            if (!myorder->empty())
-            {
-                vector<json>::iterator tmp = it;
-                while (true)
-                {
-
-                    if (it < myorder->end())
-                    {
-                        if (filter.sift(*it))
-                            break;
-                    }
-                    else
-                    {
-                        it = tmp;
-                        while (true)
-                        {
-                            --it;
-                            if (it >= myorder->begin())
-                            {
-                                if (filter.sift(*it))
-                                    break;
-                            }
-                            else
-                            {
-                                system("cls");
-                                cout << "There is nothing fits the filter." << endl;
-                                cout << "Press any key to continue." << endl;
-                                getch();
-                                filter = Filter();
-                                it = tmp;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                    ++it;
-                }
-            }
+            total = 0;
+            for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
+                total += it->gettopay();
+            break;
+        case 'h':
+            myorder->clear();
             break;
         case 'q':
             return;
@@ -757,4 +717,100 @@ void Page::managemyorder()
     } while (true);
 }
 
-void Page::managemycart(vector<Cell> *shoppingcart) {}
+void Page::managemycart(vector<Cell> *shoppingcart)
+{
+    vector<Cell>::iterator it = shoppingcart->begin();
+    double total = 0;
+    for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
+        total += it->gettopay();
+    do
+    {
+        system("cls");
+        cout << "***********************Shopping cart***********************" << endl;
+        if (shoppingcart->empty())
+        {
+            cout << "Empty" << endl;
+            cout << "Press any key to go back." << endl;
+            getch();
+            return;
+        }
+        else
+        {
+            it->printdes();
+            cout << "In total to pay"
+                 << "\t"
+                 << total << endl;
+        }
+        cout << "Press A"
+             << "\t"
+             << "Previous" << endl;
+        cout << "Press S"
+             << "\t"
+             << "Change amount" << endl;
+        cout << "Press D"
+             << "\t"
+             << "Next" << endl;
+        cout << "Press F"
+             << "\t"
+             << "Add all to order" << endl;
+        cout << "Press G"
+             << "\t"
+             << "Delete this" << endl;
+        cout << "Press H"
+             << "\t"
+             << "Remove all from cart" << endl;
+        cout << "Press Q"
+             << "\t"
+             << "Go Back" << endl;
+        switch (getch())
+        {
+        case 'a':
+        {
+            --it;
+            if (it < shoppingcart->begin())
+            {
+                system("cls");
+                cout << "No more." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+                ++it;
+            }
+        }
+        case 's':
+        {
+            cout << "Input"
+                 << "\t"
+                 << "New amount" << endl;
+            cin >> it->amount;
+            break;
+        }
+        case 'd':
+        {
+            ++it;
+            if (it >= shoppingcart->end())
+            {
+                system("cls");
+                cout << "No more." << endl;
+                cout << "Press any key to continue." << endl;
+                getch();
+                --it;
+            }
+        }
+        case 'f':
+            break;
+        case 'g':
+            it = shoppingcart->erase(it);
+            break;
+        case 'h':
+            shoppingcart->clear();
+            break;
+        case 'q':
+            return;
+        default:
+            system("cls");
+            cout << "ERROR: Invalid input." << endl;
+            cout << "Press any key to continue." << endl;
+            getch();
+        }
+    } while (true);
+}
