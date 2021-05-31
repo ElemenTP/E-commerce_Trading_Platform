@@ -1,7 +1,5 @@
 #include "global.hpp"
 #include <conio.h>
-using namespace std;
-using json = nlohmann::json;
 
 void Page::setfilter(Filter *filter)
 {
@@ -100,8 +98,7 @@ void Page::setfilter(Filter *filter)
                     default:
                         system("cls");
                         cout << "ERROR: Invalid input." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                     }
                 } while (type < 0);
                 if (type != 114514)
@@ -159,8 +156,7 @@ void Page::setfilter(Filter *filter)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }
@@ -200,8 +196,7 @@ void Page::setdiscountinbatch(vector<json> *myshelf)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (type < 0);
     cout << "Input"
@@ -316,8 +311,7 @@ void Page::managemygood(vector<json>::iterator it)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }
@@ -424,8 +418,7 @@ void Page::browseall()
                     {
                         system("cls");
                         cout << "No more." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                         it_usr = tmp_usr;
                         it = tmp;
                         break;
@@ -447,16 +440,14 @@ void Page::browseall()
                 {
                     system("cls");
                     cout << "ERROR: Invalid input." << endl;
-                    cout << "Press any key to continue." << endl;
-                    getch();
+                    system("pause");
                 }
             }
             else
             {
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             break;
         case 'd':
@@ -491,8 +482,7 @@ void Page::browseall()
                     {
                         system("cls");
                         cout << "No more." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                         it_usr = tmp_usr;
                         it = tmp;
                         break;
@@ -563,8 +553,7 @@ void Page::browseall()
                                 {
                                     system("cls");
                                     cout << "There is nothing fits the filter." << endl;
-                                    cout << "Press any key to continue." << endl;
-                                    getch();
+                                    system("pause");
                                     filter = Filter();
                                     it_usr = tmp_usr;
                                     it = tmp;
@@ -583,8 +572,7 @@ void Page::browseall()
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     }
 }
@@ -633,8 +621,7 @@ void Page::buygoods(json::iterator it_usr, json::iterator it)
             {
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             else
             {
@@ -643,8 +630,7 @@ void Page::buygoods(json::iterator it_usr, json::iterator it)
                 (*it_usr)["balance"] = (*it_usr)["balance"].get<double>() + total;
                 system("cls");
                 cout << "Purchase was successful." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 return;
             }
             break;
@@ -654,8 +640,7 @@ void Page::buygoods(json::iterator it_usr, json::iterator it)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }

@@ -1,7 +1,5 @@
 #include "global.hpp"
 #include <conio.h>
-using namespace std;
-using json = nlohmann::json;
 //构造函数，从文件中读出数据
 Page::Page()
 {
@@ -42,8 +40,7 @@ void Page::runapp()
             {
                 system("cls");
                 cout << "ERROR: Invalid Input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             else
                 signinipt();
@@ -53,8 +50,7 @@ void Page::runapp()
             {
                 system("cls");
                 cout << "ERROR: Invalid Input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             else
                 browseall();
@@ -64,8 +60,7 @@ void Page::runapp()
         default:
             system("cls");
             cout << "ERROR: Invalid Input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
         if (cur_usr) //已经注册或者登录则进入个人中心界面
             accouthome();
@@ -100,8 +95,7 @@ void Page::signup()
         default:
             system("cls");
             cout << "ERROR: Invalid Input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
         if (cur_usr)
             return;
@@ -127,8 +121,7 @@ void Page::signupipt(usr_type type)
             {
                 system("cls");
                 cout << "ERROR: This name has been used." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 break;
             }
         }
@@ -255,8 +248,7 @@ void Page::accouthome()
         default:
             system("cls");
             cout << "ERROR: Invalid Input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }
@@ -294,8 +286,7 @@ void Page::changename()
                 cur_usr->changeName(newname);
                 storedata();
                 cout << "The user name was changed successfully." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 return;
             }
         }
@@ -336,8 +327,7 @@ void Page::changepasswd()
             cur_usr->changepasswd(newpasswd);
             storedata();
             cout << "The user password was changed successfully." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
             return;
         }
         else
@@ -372,8 +362,7 @@ void Page::recharge()
             cur_usr->changeBalance(money);
             storedata();
             cout << "The top-up was successful." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
             return;
         }
         else
@@ -408,8 +397,7 @@ void Page::withdrawals()
             cur_usr->changeBalance(-money);
             storedata();
             cout << "The withdrawal was successful." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
             return;
         }
         else
@@ -458,8 +446,7 @@ void Page::managemyshelf()
             default:
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
         }
         else //货架非空
@@ -526,8 +513,7 @@ void Page::managemyshelf()
                     {
                         system("cls");
                         cout << "No more." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                         it = tmp;
                         break;
                     }
@@ -553,8 +539,7 @@ void Page::managemyshelf()
                     {
                         system("cls");
                         cout << "No more." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                         it = tmp;
                         break;
                     }
@@ -596,8 +581,7 @@ void Page::managemyshelf()
                                 {
                                     system("cls");
                                     cout << "There is nothing fits the filter." << endl;
-                                    cout << "Press any key to continue." << endl;
-                                    getch();
+                                    system("pause");
                                     filter = Filter();
                                     it = tmp;
                                     break;
@@ -635,8 +619,7 @@ void Page::managemyshelf()
                             {
                                 system("cls");
                                 cout << "There is nothing fits the filter." << endl;
-                                cout << "Press any key to continue." << endl;
-                                getch();
+                                system("pause");
                                 filter = Filter();
                                 it = tmp;
                                 break;
@@ -657,8 +640,7 @@ void Page::managemyshelf()
             default:
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
         }
     } while (true);
@@ -694,8 +676,7 @@ json Page::newgood()
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (j.empty());
     string ipttitle, iptdetail;

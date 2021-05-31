@@ -1,6 +1,4 @@
 #include "global.hpp"
-using namespace std;
-using json = nlohmann::json;
 //输出订单详情
 void Cell::printdes()
 {

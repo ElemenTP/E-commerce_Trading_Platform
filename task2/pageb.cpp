@@ -1,7 +1,5 @@
 #include "global.hpp"
 #include <conio.h>
-using namespace std;
-using json = nlohmann::json;
 
 void Page::setfilter(Filter *filter)
 {
@@ -100,8 +98,7 @@ void Page::setfilter(Filter *filter)
                     default:
                         system("cls");
                         cout << "ERROR: Invalid input." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                     }
                 } while (type < 0);
                 if (type != 114514)
@@ -159,8 +156,7 @@ void Page::setfilter(Filter *filter)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }
@@ -200,8 +196,7 @@ void Page::setdiscountinbatch(vector<json> *myshelf)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (type < 0);
     cout << "Input"
@@ -316,8 +311,7 @@ void Page::managemygood(vector<json>::iterator it)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }
@@ -441,8 +435,7 @@ void Page::browseall()
                     {
                         system("cls");
                         cout << "No more." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                         it_usr = tmp_usr;
                         it = tmp;
                         break;
@@ -474,16 +467,14 @@ void Page::browseall()
                 {
                     system("cls");
                     cout << "ERROR: Invalid input." << endl;
-                    cout << "Press any key to continue." << endl;
-                    getch();
+                    system("pause");
                 }
             }
             else
             {
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             break;
         case 'd':
@@ -518,8 +509,7 @@ void Page::browseall()
                     {
                         system("cls");
                         cout << "No more." << endl;
-                        cout << "Press any key to continue." << endl;
-                        getch();
+                        system("pause");
                         it_usr = tmp_usr;
                         it = tmp;
                         break;
@@ -539,16 +529,14 @@ void Page::browseall()
                 {
                     system("cls");
                     cout << "ERROR: Invalid input." << endl;
-                    cout << "Press any key to continue." << endl;
-                    getch();
+                    system("pause");
                 }
             }
             else
             {
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             break;
         case 'g':
@@ -562,16 +550,14 @@ void Page::browseall()
                 {
                     system("cls");
                     cout << "ERROR: Invalid input." << endl;
-                    cout << "Press any key to continue." << endl;
-                    getch();
+                    system("pause");
                 }
             }
             else
             {
                 system("cls");
                 cout << "ERROR: Invalid input." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             break;
         case 'h':
@@ -635,8 +621,7 @@ void Page::browseall()
                                 {
                                     system("cls");
                                     cout << "There is nothing fits the filter." << endl;
-                                    cout << "Press any key to continue." << endl;
-                                    getch();
+                                    system("pause");
                                     filter = Filter();
                                     it_usr = tmp_usr;
                                     it = tmp;
@@ -655,8 +640,7 @@ void Page::browseall()
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     }
 }
@@ -710,8 +694,7 @@ void Page::managemyorder()
             {
                 system("cls");
                 cout << "No more." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 ++it;
             }
             break;
@@ -723,8 +706,7 @@ void Page::managemyorder()
             {
                 system("cls");
                 cout << "No more." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 --it;
             }
             break;
@@ -734,8 +716,7 @@ void Page::managemyorder()
             {
                 system("cls");
                 cout << "The balance is insufficient." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             else
             {
@@ -746,8 +727,7 @@ void Page::managemyorder()
                 storedata();
                 system("cls");
                 cout << "The purchase is successful." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             break;
         case 'h':
@@ -756,16 +736,14 @@ void Page::managemyorder()
             myorder->clear();
             system("cls");
             cout << "Order canceled." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
             break;
         case 'q':
             return;
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }
@@ -824,8 +802,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
             {
                 system("cls");
                 cout << "No more." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 ++it;
             }
             break;
@@ -854,8 +831,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
             {
                 system("cls");
                 cout << "No more." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 --it;
             }
             break;
@@ -869,16 +845,14 @@ void Page::managemycart(vector<Cell> *shoppingcart)
                 ((Client *)cur_usr)->manageorder()->swap(*shoppingcart);
                 system("cls");
                 cout << "The order has been generated." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
                 managemyorder();
             }
             else
             {
                 system("cls");
                 cout << "There is already an order." << endl;
-                cout << "Press any key to continue." << endl;
-                getch();
+                system("pause");
             }
             break;
         }
@@ -896,8 +870,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
         default:
             system("cls");
             cout << "ERROR: Invalid input." << endl;
-            cout << "Press any key to continue." << endl;
-            getch();
+            system("pause");
         }
     } while (true);
 }

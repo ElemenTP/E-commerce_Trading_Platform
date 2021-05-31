@@ -1,6 +1,4 @@
 #include "global.hpp"
-using namespace std;
-using json = nlohmann::json;
 //各种类与json类的互相转换函数
 void to_json(json &j, const Food &p)
 {

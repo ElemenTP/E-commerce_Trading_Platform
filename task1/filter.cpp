@@ -1,6 +1,4 @@
 #include "global.hpp"
-using namespace std;
-using json = nlohmann::json;
 //筛选函数
 bool Filter::sift(json item) const
 {
