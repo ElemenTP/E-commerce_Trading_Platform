@@ -138,20 +138,12 @@ void Page::signupipt(usr_type type)
          << "Password of the new account" << endl;
     std::getline(std::cin, iptname, '\n');
     if (type == client)
-    {
         cur_usr = new Client(iptname, iptpasswd);
-        j = *(Client *)cur_usr;
-    }
     else if (type == business)
-    {
         cur_usr = new Business(iptname, iptpasswd);
-        j = *(Business *)cur_usr;
-    }
-    data.push_back(j);
+    data.push_back(json());
     usr_json = data.end() - 1;
-    optdata.open("datafile.json");
-    optdata << setw(4) << data;
-    optdata.close();
+    storedata();
 }
 
 void Page::signinipt()
