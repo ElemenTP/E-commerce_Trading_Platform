@@ -91,8 +91,11 @@ Page::Page()
     }
     else
     {
-        data << *datatemp;
+        string tmp;
+        for (int i = 0; i < datalen - 1; i++)
+            tmp.push_back(datatemp[i]);
         delete[] datatemp;
+        data = json::parse(tmp);
         cout << "Data fetching was successful." << endl;
     }
     system("pause");
@@ -120,7 +123,8 @@ void Page::storedata()
         exit(1);
     }
 
-    memcpy(datatemp, send_temp.c_str(), datalen);
+    for (int i = 0; i < datalen - 1; i++)
+        datatemp[i] = send_temp[i];
     iResult = send(ConnectSocket, datatemp, datalen, 0);
     if (iResult == SOCKET_ERROR)
     {

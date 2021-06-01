@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g
+CFLAGS=-O2
 LDFLAGS = -lwsock32
 
 objects = main.o friend.o pagea.o pageb.o filter.o cell.o client.o
@@ -8,7 +8,7 @@ client: $(objects)
 	$(CC) $(objects) -o client.exe $(LDFLAGS)
 
 server: network.hpp server.cpp
-	$(CC) $(CFLAGS) server.cpp -o server.exe $(LDFLAGS)
+	$(CC) server.cpp -o server.exe $(LDFLAGS)
 
 main.o: global.hpp json.hpp main.cpp
 	$(CC) $(CFLAGS) -c main.cpp

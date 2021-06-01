@@ -84,7 +84,7 @@ int main(void)
     cout << "Sending data to the client." << endl;
     iptdata.open("datafile.json");
     if (iptdata)
-        iptdata >> datastr;
+        getline(iptdata, datastr, (char)EOF);
     iptdata.close();
 
     datalen = datastr.size() + 1;
@@ -99,7 +99,8 @@ int main(void)
     }
 
     datatemp = new char[datalen];
-    memcpy(datatemp, datastr.c_str(), datalen);
+    for (int i = 0; i < datalen - 1; i++)
+        datatemp[i] = datastr[i];
     iResult = send(ClientSocket, datatemp, datalen, 0);
     if (iResult == SOCKET_ERROR)
     {
@@ -150,7 +151,9 @@ int main(void)
         else
         {
             optdata.open("datafile.json");
-            optdata << *datatemp;
+            for (int i = 0; i < datalen - 1; i++)
+                optdata << datatemp[i];
+            optdata.close();
             delete[] datatemp;
         }
     } while (true);
