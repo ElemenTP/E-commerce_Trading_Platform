@@ -129,7 +129,7 @@ void Page::signupipt(usr_type type)
     cout << "Input"
          << "\t"
          << "Password of the new account" << endl;
-    std::getline(std::cin, iptname, '\n');
+    std::getline(std::cin, iptpasswd, '\n');
     if (type == client)
         cur_usr = new Client(iptname, iptpasswd);
     else if (type == business)
