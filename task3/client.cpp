@@ -1,7 +1,7 @@
 #include "global.hpp"
 #include "network.hpp"
 using std::cerr;
-//æ„é€ å‡½æ•°ï¼Œä»æœåŠ¡å™¨ä¸­è¯»å‡ºæ•°æ®
+//¹¹Ôìº¯Êı£¬´Ó·şÎñÆ÷ÖĞ¶Á³öÊı¾İ
 Page::Page()
 {
     ConnectSocket = INVALID_SOCKET;
@@ -14,7 +14,7 @@ Page::Page()
     char *datatemp;
     unsigned long long datalen;
 
-    // åˆå§‹åŒ– Winsock
+    // ³õÊ¼»¯ Winsock
     cout << "Initializing Winsock" << endl;
     iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)

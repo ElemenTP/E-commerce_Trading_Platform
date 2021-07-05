@@ -1,5 +1,5 @@
 #include "global.hpp"
-//鍚勭绫讳笌json绫荤殑浜掔浉杞崲鍑芥暟
+//各种类与json类的互相转换函数
 void to_json(json &j, const Food &p)
 {
     j = {{"type", food}, {"title", p.title}, {"detail", p.detail}, {"price", p.price}, {"discount", p.discount}, {"stock", p.stock}};

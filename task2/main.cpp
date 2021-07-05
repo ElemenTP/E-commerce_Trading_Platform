@@ -4,5 +4,5 @@ using namespace std;
 int main(void)
 {
     Page myapp;
-    myapp.runapp(); //杩愯鐢ㄦ埛鐣岄潰
+    myapp.runapp(); //运行用户界面
 }

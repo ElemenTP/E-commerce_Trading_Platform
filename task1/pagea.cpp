@@ -1,6 +1,6 @@
 #include "global.hpp"
 #include <conio.h>
-//æ„é€ å‡½æ•°ï¼Œä»æ–‡ä»¶ä¸­è¯»å‡ºæ•°æ®
+//¹¹Ôìº¯Êı£¬´ÓÎÄ¼şÖĞ¶Á³öÊı¾İ
 Page::Page()
 {
     iptdata.open("datafile.json");
@@ -18,7 +18,7 @@ void Page::runapp()
         cout << "Press A"
              << "\t"
              << "Sign Up" << endl;
-        if (!data.empty()) //å¦‚æœæ²¡æœ‰ä¿¡æ¯åˆ™åªèƒ½æ³¨å†Œ
+        if (!data.empty()) //Èç¹ûÃ»ÓĞĞÅÏ¢ÔòÖ»ÄÜ×¢²á
         {
             cout << "Press S"
                  << "\t"
@@ -62,7 +62,7 @@ void Page::runapp()
             cout << "ERROR: Invalid Input." << endl;
             system("pause");
         }
-        if (cur_usr) //å·²ç»æ³¨å†Œæˆ–è€…ç™»å½•åˆ™è¿›å…¥ä¸ªäººä¸­å¿ƒç•Œé¢
+        if (cur_usr) //ÒÑ¾­×¢²á»òÕßµÇÂ¼Ôò½øÈë¸öÈËÖĞĞÄ½çÃæ
             accouthome();
     } while (true);
 }
@@ -115,7 +115,7 @@ void Page::signupipt(usr_type type)
              << "\t"
              << "Name of the new account" << endl;
         std::getline(std::cin, iptname, '\n');
-        for (it = data.begin(); it < data.end(); ++it) //æ£€æŸ¥ç”¨æˆ·åæ˜¯å¦å·²å­˜åœ¨
+        for (it = data.begin(); it < data.end(); ++it) //¼ì²éÓÃ»§ÃûÊÇ·ñÒÑ´æÔÚ
         {
             if ((*it)["name"].get<string>() == iptname)
             {
@@ -156,7 +156,7 @@ void Page::signinipt()
              << "Password of the account" << endl;
         std::getline(std::cin, iptpasswd, '\n');
         ;
-        for (usr_json = data.begin(); usr_json < data.end(); ++usr_json) //æ£€æŸ¥æ˜¯å¦æœ‰è¯¥ç”¨æˆ·åå’Œå¯†ç 
+        for (usr_json = data.begin(); usr_json < data.end(); ++usr_json) //¼ì²éÊÇ·ñÓĞ¸ÃÓÃ»§ÃûºÍÃÜÂë
         {
             if ((*usr_json)["name"].get<string>() == iptname && (*usr_json)["passwd"].get<string>() == iptpasswd)
             {
@@ -211,7 +211,7 @@ void Page::accouthome()
         cout << "Input G"
              << "\t"
              << "Browse all products" << endl;
-        if (cur_usr->getUserType() == business) //ä»…å¯¹å•†å®¶æ˜¾ç¤ºè´§æ¶
+        if (cur_usr->getUserType() == business) //½ö¶ÔÉÌ¼ÒÏÔÊ¾»õ¼Ü
             cout << "Input H"
                  << "\t"
                  << "Manage my shelf" << endl;
@@ -265,14 +265,14 @@ void Page::changename()
              << "Your password" << endl;
         std::getline(std::cin, iptpasswd, '\n');
         ;
-        if (cur_usr->checkpasswd(iptpasswd)) //æ£€æŸ¥å¯†ç æ˜¯å¦æ­£ç¡®
+        if (cur_usr->checkpasswd(iptpasswd)) //¼ì²éÃÜÂëÊÇ·ñÕıÈ·
         {
             cout << "Input"
                  << "\t"
                  << "New name" << endl;
             std::getline(std::cin, newname, '\n');
             int it;
-            for (it = data.size() - 1; it >= 0; --it) //æ£€æŸ¥æ–°ç”¨æˆ·åæ˜¯å¦å·²ç»è¢«ä½¿ç”¨
+            for (it = data.size() - 1; it >= 0; --it) //¼ì²éĞÂÓÃ»§ÃûÊÇ·ñÒÑ¾­±»Ê¹ÓÃ
             {
                 if (data[it]["name"].get<string>() == newname)
                 {
@@ -357,7 +357,7 @@ void Page::recharge()
              << "\t"
              << "The amount of the top-up" << endl;
         cin >> money;
-        if (money > 0 && (cur_usr->getBalance() + money) < __DBL_MAX__) //æ£€æŸ¥å……å€¼é‡‘é¢æ˜¯å¦åˆæ³•
+        if (money > 0 && (cur_usr->getBalance() + money) < DBL_MAX) //¼ì²é³äÖµ½ğ¶îÊÇ·ñºÏ·¨
         {
             cur_usr->changeBalance(money);
             storedata();
@@ -392,7 +392,7 @@ void Page::withdrawals()
              << "\t"
              << "The amount of the withdrawal" << endl;
         cin >> money;
-        if (money > 0 && (cur_usr->getBalance() - money) > 0) //æ£€æŸ¥ææ¬¾é‡‘é¢æ˜¯å¦åˆæ³•
+        if (money > 0 && (cur_usr->getBalance() - money) > 0) //¼ì²éÌá¿î½ğ¶îÊÇ·ñºÏ·¨
         {
             cur_usr->changeBalance(-money);
             storedata();
@@ -419,13 +419,13 @@ void Page::withdrawals()
 void Page::managemyshelf()
 {
     vector<json> *myshelf = ((Business *)cur_usr)->changeMyShelves();
-    vector<json>::iterator it = myshelf->begin(); //å®¹å™¨æšä¸¾å™¨
-    Filter filter;                                //ç­›é€‰å™¨å¯¹è±¡
+    vector<json>::iterator it = myshelf->begin(); //ÈİÆ÷Ã¶¾ÙÆ÷
+    Filter filter;                                //É¸Ñ¡Æ÷¶ÔÏó
     do
     {
         system("cls");
         cout << "**************************My Shelf*************************" << endl;
-        if (myshelf->empty()) //è´§æ¶ä¸ºç©º
+        if (myshelf->empty()) //»õ¼ÜÎª¿Õ
         {
             cout << "Empty" << endl;
             cout << "Press F"
@@ -449,9 +449,9 @@ void Page::managemyshelf()
                 system("pause");
             }
         }
-        else //è´§æ¶éç©º
+        else //»õ¼Ü·Ç¿Õ
         {
-            switch ((*it)["type"].get<int>()) //è¾“å‡ºå½“å‰å•†å“è¯¦æƒ…
+            switch ((*it)["type"].get<int>()) //Êä³öµ±Ç°ÉÌÆ·ÏêÇé
             {
             case food:
             {
@@ -498,7 +498,7 @@ void Page::managemyshelf()
                  << "Go Back" << endl;
             switch (getch())
             {
-            case 'a': //å‘å‰éå†å¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„è´§å“ï¼Œæ‰¾ä¸åˆ°åˆ™æç¤ºæ²¡äº†
+            case 'a': //ÏòÇ°±éÀúÑ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄ»õÆ·£¬ÕÒ²»µ½ÔòÌáÊ¾Ã»ÁË
             {
                 vector<json>::iterator tmp = it;
                 while (true)
@@ -524,7 +524,7 @@ void Page::managemyshelf()
                 managemygood(it);
                 storedata();
                 break;
-            case 'd': //å‘åéå†å¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„è´§å“ï¼Œæ‰¾ä¸åˆ°åˆ™æç¤ºæ²¡äº†
+            case 'd': //Ïòºó±éÀúÑ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄ»õÆ·£¬ÕÒ²»µ½ÔòÌáÊ¾Ã»ÁË
             {
                 vector<json>::iterator tmp = it;
                 while (true)
@@ -549,13 +549,13 @@ void Page::managemyshelf()
             case 'f':
                 it = myshelf->insert(it, newgood());
                 storedata();
-                if (!filter.sift(*it)) //å¦‚æœæ·»åŠ çš„æ–°å•†å“ä¸ç¬¦åˆç­›é€‰æ ‡å‡†åˆ™å›é€€æ·»åŠ å‰ä½ç½®
+                if (!filter.sift(*it)) //Èç¹ûÌí¼ÓµÄĞÂÉÌÆ·²»·ûºÏÉ¸Ñ¡±ê×¼Ôò»ØÍËÌí¼ÓÇ°Î»ÖÃ
                     ++it;
                 break;
             case 'g':
                 it = myshelf->erase(it);
                 storedata();
-                if (!myshelf->empty()) //åˆ é™¤å•ä¸ªå•†å“åå¦‚æœè´§æ¶ä¸ç©ºåˆ™å¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„å•†å“ï¼Œå…ˆå‘åå¯»æ‰¾å†å‘å‰å¯»æ‰¾ï¼Œæ‰¾ä¸åˆ°åˆ™æç¤ºæ²¡æœ‰ï¼Œå¹¶é‡ç½®ç­›é€‰æ¡ä»¶
+                if (!myshelf->empty()) //É¾³ıµ¥¸öÉÌÆ·ºóÈç¹û»õ¼Ü²»¿ÕÔòÑ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄÉÌÆ·£¬ÏÈÏòºóÑ°ÕÒÔÙÏòÇ°Ñ°ÕÒ£¬ÕÒ²»µ½ÔòÌáÊ¾Ã»ÓĞ£¬²¢ÖØÖÃÉ¸Ñ¡Ìõ¼ş
                 {
                     vector<json>::iterator tmp = it;
                     while (true)
@@ -595,7 +595,7 @@ void Page::managemyshelf()
                 break;
             case 'h':
             {
-                setfilter(&filter); //è®¾ç½®ç­›é€‰æ¡ä»¶åå¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„å•†å“ï¼Œå…ˆå‘åå¯»æ‰¾å†å‘å‰å¯»æ‰¾ï¼Œæ‰¾ä¸åˆ°åˆ™æç¤ºæ²¡æœ‰ï¼Œå¹¶é‡ç½®ç­›é€‰æ¡ä»¶
+                setfilter(&filter); //ÉèÖÃÉ¸Ñ¡Ìõ¼şºóÑ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄÉÌÆ·£¬ÏÈÏòºóÑ°ÕÒÔÙÏòÇ°Ñ°ÕÒ£¬ÕÒ²»µ½ÔòÌáÊ¾Ã»ÓĞ£¬²¢ÖØÖÃÉ¸Ñ¡Ìõ¼ş
                 vector<json>::iterator tmp = it;
                 while (true)
                 {

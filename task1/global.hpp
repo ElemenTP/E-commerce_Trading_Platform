@@ -6,33 +6,33 @@
 #include <vector>
 using namespace std;
 using json = nlohmann::json;
-//ç”¨æˆ·ç±»å‹
+//ÓÃ»§ÀàĞÍ
 typedef enum
 {
      client,
      business,
 } usr_type;
-//å•†å“ç±»å‹
+//ÉÌÆ·ÀàĞÍ
 typedef enum
 {
      food,
      clothing,
      book,
 } item_type;
-//å•†å“åŸºç±»
+//ÉÌÆ·»ùÀà
 class Merchandise
 {
 protected:
-     string title;             //å•†å“æ ‡é¢˜
-     string detail;            //å•†å“è¯¦æƒ…
-     double price;             //å•†å“ä»·æ ¼
-     float discount;           //å•†å“æŠ˜æ‰£
-     unsigned long long stock; //å•†å“åº“å­˜
+     string title;             //ÉÌÆ·±êÌâ
+     string detail;            //ÉÌÆ·ÏêÇé
+     double price;             //ÉÌÆ·¼Û¸ñ
+     float discount;           //ÉÌÆ·ÕÛ¿Û
+     unsigned long long stock; //ÉÌÆ·¿â´æ
 
 public:
-     virtual item_type getItemType() const = 0; //è·å–å•†å“ç±»å‹
-     virtual void optItemDes() const = 0;       //è·å–å•†å“æè¿°
-     virtual double getPrice() const = 0;       //è·å–å•†å“ä»·æ ¼
+     virtual item_type getItemType() const = 0; //»ñÈ¡ÉÌÆ·ÀàĞÍ
+     virtual void optItemDes() const = 0;       //»ñÈ¡ÉÌÆ·ÃèÊö
+     virtual double getPrice() const = 0;       //»ñÈ¡ÉÌÆ·¼Û¸ñ
      Merchandise() {}
      Merchandise(string ipttitle, string iptdes, double iptprice, float iptdiscount, unsigned long long iptstock) : title(ipttitle), detail(iptdes), price(iptprice), discount(iptdiscount), stock(iptstock) {}
 };
@@ -117,30 +117,30 @@ public:
      friend void to_json(json &j, const Book &p);
      friend void from_json(const json &j, Book &p);
 };
-//ç”¨æˆ·åŸºç±»
+//ÓÃ»§»ùÀà
 class Account
 {
 protected:
-     string name;    //ç”¨æˆ·å
-     string passwd;  //ç”¨æˆ·å¯†ç 
-     double balance; //ç”¨æˆ·ä½™é¢
+     string name;    //ÓÃ»§Ãû
+     string passwd;  //ÓÃ»§ÃÜÂë
+     double balance; //ÓÃ»§Óà¶î
 
 public:
-     virtual usr_type getUserType() const = 0; //è·å–ç”¨æˆ·ç±»å‹
+     virtual usr_type getUserType() const = 0; //»ñÈ¡ÓÃ»§ÀàĞÍ
      Account() {}
      Account(string iptname, string iptpasswd) : name(iptname), passwd(iptpasswd), balance(0) {}
-     virtual void optAccoutDet() const = 0;                      //è¾“å‡ºç”¨æˆ·è¯¦æƒ…
-     double getBalance() const { return balance; }               //è·å–ç”¨æˆ·ä½™é¢
-     void changeName(string newname) { name = newname; }         //æ›´æ”¹ç”¨æˆ·å
-     void changepasswd(string newpasswd) { passwd = newpasswd; } //æ›´æ”¹å¯†ç 
-     bool checkpasswd(string iptpasswd) const                    //æ£€æŸ¥å¯†ç æ˜¯å¦æ­£ç¡®
+     virtual void optAccoutDet() const = 0;                      //Êä³öÓÃ»§ÏêÇé
+     double getBalance() const { return balance; }               //»ñÈ¡ÓÃ»§Óà¶î
+     void changeName(string newname) { name = newname; }         //¸ü¸ÄÓÃ»§Ãû
+     void changepasswd(string newpasswd) { passwd = newpasswd; } //¸ü¸ÄÃÜÂë
+     bool checkpasswd(string iptpasswd) const                    //¼ì²éÃÜÂëÊÇ·ñÕıÈ·
      {
           if (iptpasswd == passwd)
                return true;
           else
                return false;
      }
-     void changeBalance(double amount) { balance += amount; } //ä¿®æ”¹ä½™é¢
+     void changeBalance(double amount) { balance += amount; } //ĞŞ¸ÄÓà¶î
 };
 
 class Client : public Account
@@ -166,7 +166,7 @@ public:
 class Business : public Account
 {
 protected:
-     vector<json> myShelves; //è´§æ¶
+     vector<json> myShelves; //»õ¼Ü
 
 public:
      usr_type getUserType() const { return business; }
@@ -184,53 +184,53 @@ public:
           cout << "Number of my products"
                << "\t" << myShelves.size() << endl;
      }
-     vector<json> *changeMyShelves() { return (&myShelves); } //è·å–è´§æ¶
+     vector<json> *changeMyShelves() { return (&myShelves); } //»ñÈ¡»õ¼Ü
      friend void to_json(json &j, const Business &p);
      friend void from_json(const json &j, Business &p);
 };
-//ç­›é€‰å™¨ç±»
+//É¸Ñ¡Æ÷Àà
 class Filter
 {
 public:
-     bool title = false; //æŒ‰æ ‡é¢˜ç­›é€‰å¼€å…³
+     bool title = false; //°´±êÌâÉ¸Ñ¡¿ª¹Ø
      string title_filter;
-     bool type = false; //æŒ‰ç±»å‹ç­›é€‰å¼€å…³
+     bool type = false; //°´ÀàĞÍÉ¸Ñ¡¿ª¹Ø
      item_type type_filter;
-     bool price = false; //æŒ‰ä»·æ ¼ç­›é€‰å¼€å…³
+     bool price = false; //°´¼Û¸ñÉ¸Ñ¡¿ª¹Ø
      double price_low_filter = 0;
-     double price_high_filter = __DBL_MAX__;
-     bool discount = false; //æŒ‰æŠ˜æ‰£ç­›é€‰å¼€å…³
-     bool stock = false;    //æŒ‰åº“å­˜ç­›é€‰å¼€å…³
+     double price_high_filter = DBL_MAX;
+     bool discount = false; //°´ÕÛ¿ÛÉ¸Ñ¡¿ª¹Ø
+     bool stock = false;    //°´¿â´æÉ¸Ñ¡¿ª¹Ø
      Filter(){};
-     bool sift(json item) const; //ç­›é€‰å‡½æ•°
+     bool sift(json item) const; //É¸Ñ¡º¯Êı
 };
-//ç”¨æˆ·ç•Œé¢ç±»
+//ÓÃ»§½çÃæÀà
 class Page
 {
 private:
-     json data;                                               //æ•°æ®
-     Account *cur_usr = NULL;                                 //å½“å‰ç”¨æˆ·æŒ‡é’ˆ
-     json::iterator usr_json;                                 //å½“å‰ç”¨æˆ·æšä¸¾å™¨
-     ifstream iptdata;                                        //è¾“å…¥æ–‡ä»¶
-     ofstream optdata;                                        //è¾“å‡ºæ–‡ä»¶
-     void signup();                                           //æ³¨å†Œç•Œé¢
-     void signupipt(usr_type type);                           //æ³¨å†Œè¾“å…¥ç•Œé¢
-     void signinipt();                                        //ç™»å½•ç•Œé¢
-     void browseall();                                        //æµè§ˆå…¨éƒ¨å•†å“ç•Œé¢
-     void accouthome();                                       //ä¸ªäººä¸­å¿ƒç•Œé¢
-     void changename();                                       //æ›´æ”¹ç”¨æˆ·åç•Œé¢
-     void changepasswd();                                     //æ›´æ”¹å¯†ç ç•Œé¢
-     void recharge();                                         //å……å€¼ç•Œé¢
-     void withdrawals();                                      //ææ¬¾ç•Œé¢
-     void managemyshelf();                                    //å•†å®¶ç®¡ç†è´§æ¶ç•Œé¢
-     void managemygood(vector<json>::iterator it);            //å•†å®¶ç®¡ç†å•†å“ç•Œé¢
-     json newgood();                                          //æ–°å»ºå•†å“ç•Œé¢
-     void storedata();                                        //å­˜å‚¨æ•°æ®å‡½æ•°
-     void setfilter(Filter *filter);                          //è®¾ç½®ç­›é€‰å™¨ç•Œé¢
-     void setdiscountinbatch(vector<json> *myshelf);          //æ‰¹é‡æ‰“æŠ˜ç•Œé¢
-     void buygoods(json::iterator it_usr, json::iterator it); //è´­ä¹°ç•Œé¢
+     json data;                                               //Êı¾İ
+     Account *cur_usr = NULL;                                 //µ±Ç°ÓÃ»§Ö¸Õë
+     json::iterator usr_json;                                 //µ±Ç°ÓÃ»§Ã¶¾ÙÆ÷
+     ifstream iptdata;                                        //ÊäÈëÎÄ¼ş
+     ofstream optdata;                                        //Êä³öÎÄ¼ş
+     void signup();                                           //×¢²á½çÃæ
+     void signupipt(usr_type type);                           //×¢²áÊäÈë½çÃæ
+     void signinipt();                                        //µÇÂ¼½çÃæ
+     void browseall();                                        //ä¯ÀÀÈ«²¿ÉÌÆ·½çÃæ
+     void accouthome();                                       //¸öÈËÖĞĞÄ½çÃæ
+     void changename();                                       //¸ü¸ÄÓÃ»§Ãû½çÃæ
+     void changepasswd();                                     //¸ü¸ÄÃÜÂë½çÃæ
+     void recharge();                                         //³äÖµ½çÃæ
+     void withdrawals();                                      //Ìá¿î½çÃæ
+     void managemyshelf();                                    //ÉÌ¼Ò¹ÜÀí»õ¼Ü½çÃæ
+     void managemygood(vector<json>::iterator it);            //ÉÌ¼Ò¹ÜÀíÉÌÆ·½çÃæ
+     json newgood();                                          //ĞÂ½¨ÉÌÆ·½çÃæ
+     void storedata();                                        //´æ´¢Êı¾İº¯Êı
+     void setfilter(Filter *filter);                          //ÉèÖÃÉ¸Ñ¡Æ÷½çÃæ
+     void setdiscountinbatch(vector<json> *myshelf);          //ÅúÁ¿´òÕÛ½çÃæ
+     void buygoods(json::iterator it_usr, json::iterator it); //¹ºÂò½çÃæ
 
 public:
      Page();
-     void runapp(); //ä¸»ç•Œé¢
+     void runapp(); //Ö÷½çÃæ
 };

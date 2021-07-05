@@ -1,6 +1,7 @@
 #include "network.hpp"
 #include <fstream>
 #include <iostream>
+#include <string>
 using namespace std;
 
 int main(void)
@@ -13,15 +14,15 @@ int main(void)
 
     struct sockaddr_in salisten;
     struct sockaddr_in saconnect;
-    int saconnect_len;
+    int saconnect_len = sizeof(saconnect);
 
-    ifstream iptdata; //è¾“å…¥æ–‡ä»¶
-    ofstream optdata; //è¾“å‡ºæ–‡ä»¶
+    ifstream iptdata; //ÊäÈëÎÄ¼ş
+    ofstream optdata; //Êä³öÎÄ¼ş
     string datastr;
     char *datatemp;
     unsigned long long datalen;
 
-    // åˆå§‹åŒ– Winsock
+    // ³õÊ¼»¯ Winsock
     cout << "Initializing Winsock" << endl;
     iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)

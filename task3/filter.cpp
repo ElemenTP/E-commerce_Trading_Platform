@@ -1,28 +1,28 @@
 #include "global.hpp"
-//ç­›é€‰å‡½æ•°
+//É¸Ñ¡º¯Êı
 bool Filter::sift(json item) const
 {
-    if (title)//æŒ‰æ ‡é¢˜ç­›é€‰
+    if (title)//°´±êÌâÉ¸Ñ¡
     {
         if (item["title"].get<string>().find(title_filter) == item["title"].get<string>().npos)
             return false;
     }
-    if (type)//æŒ‰ç±»å‹ç­›é€‰
+    if (type)//°´ÀàĞÍÉ¸Ñ¡
     {
         if (item["type"].get<int>() != type_filter)
             return false;
     }
-    if (price)//æŒ‰ä»·æ ¼åŒºé—´ç­›é€‰
+    if (price)//°´¼Û¸ñÇø¼äÉ¸Ñ¡
     {
         if (item["price"].get<double>() < price_low_filter || item["price"].get<double>() > price_high_filter)
             return false;
     }
-    if (discount)//æŒ‰æ˜¯å¦ä¿ƒé”€ç­›é€‰
+    if (discount)//°´ÊÇ·ñ´ÙÏúÉ¸Ñ¡
     {
         if (item["discount"].get<float>() == 1)
             return false;
     }
-    if (stock)//æŒ‰æ˜¯å¦æœ‰åº“å­˜ç­›é€‰
+    if (stock)//°´ÊÇ·ñÓĞ¿â´æÉ¸Ñ¡
     {
         if (item["stock"].get<unsigned long long>() == 0)
             return false;

@@ -1,5 +1,5 @@
 #include "global.hpp"
-//è¾“å‡ºè®¢å•è¯¦æƒ…
+//Êä³ö¶©µ¥ÏêÇé
 void Cell::printdes()
 {
      switch ((*it)["type"].get<int>())
@@ -31,11 +31,11 @@ void Cell::printdes()
      cout << "Need to pay"
           << "\t" << gettopay() << endl;
 }
-//è¿”å›è®¢å•å®ä»˜
+//·µ»Ø¶©µ¥Êµ¸¶
 double Cell::gettopay() { return (*it)["price"].get<double>() * (*it)["discount"].get<float>() * amount; }
-//è¿”å›è´§å“åº“å­˜
+//·µ»Ø»õÆ·¿â´æ
 unsigned long long Cell::getstock() { return (*it)["stock"].get<unsigned long long>(); }
-//ä¸‹è®¢å•æ“ä½œ
+//ÏÂ¶©µ¥²Ù×÷
 void Cell::toorder()
 {
      (*it)["stock"] = (*it)["stock"].get<unsigned long long>() - amount;
@@ -44,7 +44,7 @@ void Cell::toorder()
      else
           (*it)["locked"] = amount;
 }
-//å–æ¶ˆè®¢å•æ“ä½œ
+//È¡Ïû¶©µ¥²Ù×÷
 void Cell::outorder()
 {
      (*it)["stock"] = (*it)["stock"].get<unsigned long long>() + amount;
@@ -52,7 +52,7 @@ void Cell::outorder()
      if ((*it)["locked"].get<unsigned long long>() == 0)
           it->erase("locked");
 }
-//æ”¯ä»˜è®¢å•æ“ä½œ
+//Ö§¸¶¶©µ¥²Ù×÷
 void Cell::purchased()
 {
      (*it)["locked"] = (*it)["locked"].get<unsigned long long>() - amount;

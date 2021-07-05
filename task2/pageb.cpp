@@ -7,7 +7,7 @@ void Page::setfilter(Filter *filter)
     {
         system("cls");
         cout << "*************************Set Filter************************" << endl;
-        cout << "Filter by title" //æ˜¾ç¤ºç­›é€‰å™¨çŠ¶æ€
+        cout << "Filter by title" //ÏÔÊ¾É¸Ñ¡Æ÷×´Ì¬
              << "\t"
              << boolalpha << filter->title << endl;
         cout << "Filter by type"
@@ -318,11 +318,11 @@ void Page::managemygood(vector<json>::iterator it)
 
 void Page::browseall()
 {
-    vector<Cell> shoppingcart;            //è´­ç‰©è½¦
-    json::iterator it_usr = data.begin(); //å–å®¶ç”¨æˆ·è¿­ä»£å™¨
-    json::iterator it;                    //å•†å“è¿­ä»£å™¨
-    Filter filter;                        //ç­›é€‰å™¨å¯¹è±¡
-    while (true)                          //æ‰¾åˆ°ç¬¬ä¸€ä¸ªè´§æ¶éç©ºçš„å–å®¶
+    vector<Cell> shoppingcart;            //¹ºÎï³µ
+    json::iterator it_usr = data.begin(); //Âô¼ÒÓÃ»§µü´úÆ÷
+    json::iterator it;                    //ÉÌÆ·µü´úÆ÷
+    Filter filter;                        //É¸Ñ¡Æ÷¶ÔÏó
+    while (true)                          //ÕÒµ½µÚÒ»¸ö»õ¼Ü·Ç¿ÕµÄÂô¼Ò
     {
         if ((*it_usr)["type"].get<int>() == business)
         {
@@ -333,7 +333,7 @@ void Page::browseall()
             }
         }
         ++it_usr;
-        if (it_usr == data.end()) //ä¸å­˜åœ¨è¿™æ ·çš„å–å®¶ï¼Œå³æ²¡æœ‰å•†å“å¯ä»¥å±•ç¤º
+        if (it_usr == data.end()) //²»´æÔÚÕâÑùµÄÂô¼Ò£¬¼´Ã»ÓĞÉÌÆ·¿ÉÒÔÕ¹Ê¾
         {
             system("cls");
             cout << "**************************Shelves**************************" << endl;
@@ -347,7 +347,7 @@ void Page::browseall()
     {
         system("cls");
         cout << "**************************Shelves**************************" << endl;
-        switch ((*it)["type"].get<int>()) //å±•ç¤ºå½“å‰å•†å“çš„ä¿¡æ¯
+        switch ((*it)["type"].get<int>()) //Õ¹Ê¾µ±Ç°ÉÌÆ·µÄĞÅÏ¢
         {
         case food:
         {
@@ -369,14 +369,14 @@ void Page::browseall()
         }
         }
         if (cur_usr)
-            if (cur_usr->getUserType() == client) //å¦‚æœç”¨æˆ·æ˜¯å®¢æˆ·åˆ™å±•ç¤ºè´­ç‰©è½¦ä¸­å•†å“æ•°é‡
+            if (cur_usr->getUserType() == client) //Èç¹ûÓÃ»§ÊÇ¿Í»§ÔòÕ¹Ê¾¹ºÎï³µÖĞÉÌÆ·ÊıÁ¿
                 cout << "My cart"
                      << "\t" << shoppingcart.size() << " items" << endl;
         cout << "Press A"
              << "\t"
              << "Previous" << endl;
         if (cur_usr)
-            if (cur_usr->getUserType() == client) //å¦‚æœç”¨æˆ·æ˜¯å®¢æˆ·åˆ™å¯ä»¥æ·»å•†å“åˆ°è´­ç‰©è½¦
+            if (cur_usr->getUserType() == client) //Èç¹ûÓÃ»§ÊÇ¿Í»§Ôò¿ÉÒÔÌíÉÌÆ·µ½¹ºÎï³µ
                 cout << "Press S"
                      << "\t"
                      << "Add to cart" << endl;
@@ -385,7 +385,7 @@ void Page::browseall()
              << "Next" << endl;
         if (cur_usr)
         {
-            if (cur_usr->getUserType() == client) //å¦‚æœç”¨æˆ·æ˜¯å®¢æˆ·åˆ™å¯ä»¥ç®¡ç†è´­ç‰©è½¦å’Œè®¢å•
+            if (cur_usr->getUserType() == client) //Èç¹ûÓÃ»§ÊÇ¿Í»§Ôò¿ÉÒÔ¹ÜÀí¹ºÎï³µºÍ¶©µ¥
             {
                 cout << "Press F"
                      << "\t"
@@ -407,7 +407,7 @@ void Page::browseall()
         {
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true) //å‘å‰å¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„å•†å“ï¼Œæ²¡æœ‰åˆ™å‘å‰å¯»æ‰¾ä¸€ä¸ªè´§æ¶éç©ºçš„å–å®¶ï¼Œåœ¨è¯¥å–å®¶çš„å•†å“ä¸­ç»§ç»­å¯»æ‰¾ï¼Œä»ç„¶æ‰¾ä¸åˆ°åˆ™é‡å¤åˆ°æ‰¾åˆ°ä¸ºæ­¢ã€‚å¦‚æœæ‰¾å®Œäº†æ‰€æœ‰ä¹Ÿæœªæ‰¾åˆ°ï¼Œæç¤ºæ‰¾ä¸åˆ°å¹¶å›åˆ°ä¹‹å‰çš„çŠ¶æ€
+            while (true) //ÏòÇ°Ñ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄÉÌÆ·£¬Ã»ÓĞÔòÏòÇ°Ñ°ÕÒÒ»¸ö»õ¼Ü·Ç¿ÕµÄÂô¼Ò£¬ÔÚ¸ÃÂô¼ÒµÄÉÌÆ·ÖĞ¼ÌĞøÑ°ÕÒ£¬ÈÔÈ»ÕÒ²»µ½ÔòÖØ¸´µ½ÕÒµ½ÎªÖ¹¡£Èç¹ûÕÒÍêÁËËùÓĞÒ²Î´ÕÒµ½£¬ÌáÊ¾ÕÒ²»µ½²¢»Øµ½Ö®Ç°µÄ×´Ì¬
             {
                 --it;
                 if (it >= (*it_usr)["myShelves"].begin())
@@ -481,7 +481,7 @@ void Page::browseall()
         {
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true) //å‘åå¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„å•†å“ï¼Œæ²¡æœ‰åˆ™å‘åå¯»æ‰¾ä¸€ä¸ªè´§æ¶éç©ºçš„å–å®¶ï¼Œåœ¨è¯¥å–å®¶çš„å•†å“ä¸­ç»§ç»­å¯»æ‰¾ï¼Œä»ç„¶æ‰¾ä¸åˆ°åˆ™é‡å¤åˆ°æ‰¾åˆ°ä¸ºæ­¢ã€‚å¦‚æœæ‰¾å®Œäº†æ‰€æœ‰ä¹Ÿæœªæ‰¾åˆ°ï¼Œæç¤ºæ‰¾ä¸åˆ°å¹¶å›åˆ°ä¹‹å‰çš„çŠ¶æ€
+            while (true) //ÏòºóÑ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄÉÌÆ·£¬Ã»ÓĞÔòÏòºóÑ°ÕÒÒ»¸ö»õ¼Ü·Ç¿ÕµÄÂô¼Ò£¬ÔÚ¸ÃÂô¼ÒµÄÉÌÆ·ÖĞ¼ÌĞøÑ°ÕÒ£¬ÈÔÈ»ÕÒ²»µ½ÔòÖØ¸´µ½ÕÒµ½ÎªÖ¹¡£Èç¹ûÕÒÍêÁËËùÓĞÒ²Î´ÕÒµ½£¬ÌáÊ¾ÕÒ²»µ½²¢»Øµ½Ö®Ç°µÄ×´Ì¬
             {
                 ++it;
                 if (it < (*it_usr)["myShelves"].end())
@@ -565,7 +565,7 @@ void Page::browseall()
             setfilter(&filter);
             json::iterator tmp_usr = it_usr;
             json::iterator tmp = it;
-            while (true) //è®¾ç½®ç­›é€‰å™¨åå…ˆå‘åå¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„å•†å“ï¼Œæ²¡æœ‰åˆ™å‘åå¯»æ‰¾ä¸€ä¸ªè´§æ¶éç©ºçš„å–å®¶ï¼Œåœ¨è¯¥å–å®¶çš„å•†å“ä¸­ç»§ç»­å¯»æ‰¾ï¼Œä»ç„¶æ‰¾ä¸åˆ°åˆ™é‡å¤åˆ°æ‰¾åˆ°ä¸ºæ­¢ã€‚å¦‚æœæ‰¾å®Œäº†æ‰€æœ‰ä¹Ÿæœªæ‰¾åˆ°ï¼Œå‘å‰å¯»æ‰¾ç¬¦åˆç­›é€‰æ¡ä»¶çš„å•†å“ï¼Œæ²¡æœ‰åˆ™å‘å‰å¯»æ‰¾ä¸€ä¸ªè´§æ¶éç©ºçš„å–å®¶ï¼Œåœ¨è¯¥å–å®¶çš„å•†å“ä¸­ç»§ç»­å¯»æ‰¾ï¼Œä»ç„¶æ‰¾ä¸åˆ°åˆ™é‡å¤åˆ°æ‰¾åˆ°ä¸ºæ­¢ã€‚å¦‚æœæ‰¾å®Œäº†æ‰€æœ‰ä¹Ÿæœªæ‰¾åˆ°ï¼Œæç¤ºæ‰¾ä¸åˆ°å¹¶å›åˆ°ä¹‹å‰çš„çŠ¶æ€ï¼Œå¹¶é‡ç½®ç­›é€‰å™¨
+            while (true) //ÉèÖÃÉ¸Ñ¡Æ÷ºóÏÈÏòºóÑ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄÉÌÆ·£¬Ã»ÓĞÔòÏòºóÑ°ÕÒÒ»¸ö»õ¼Ü·Ç¿ÕµÄÂô¼Ò£¬ÔÚ¸ÃÂô¼ÒµÄÉÌÆ·ÖĞ¼ÌĞøÑ°ÕÒ£¬ÈÔÈ»ÕÒ²»µ½ÔòÖØ¸´µ½ÕÒµ½ÎªÖ¹¡£Èç¹ûÕÒÍêÁËËùÓĞÒ²Î´ÕÒµ½£¬ÏòÇ°Ñ°ÕÒ·ûºÏÉ¸Ñ¡Ìõ¼şµÄÉÌÆ·£¬Ã»ÓĞÔòÏòÇ°Ñ°ÕÒÒ»¸ö»õ¼Ü·Ç¿ÕµÄÂô¼Ò£¬ÔÚ¸ÃÂô¼ÒµÄÉÌÆ·ÖĞ¼ÌĞøÑ°ÕÒ£¬ÈÔÈ»ÕÒ²»µ½ÔòÖØ¸´µ½ÕÒµ½ÎªÖ¹¡£Èç¹ûÕÒÍêÁËËùÓĞÒ²Î´ÕÒµ½£¬ÌáÊ¾ÕÒ²»µ½²¢»Øµ½Ö®Ç°µÄ×´Ì¬£¬²¢ÖØÖÃÉ¸Ñ¡Æ÷
             {
                 ++it;
                 if (it < (*it_usr)["myShelves"].end())
@@ -649,14 +649,14 @@ void Page::managemyorder()
 {
     vector<Cell> *myorder = ((Client *)cur_usr)->manageorder();
     vector<Cell>::iterator it = myorder->begin();
-    double total = 0; //è®¢å•æ€»ä»·
+    double total = 0; //¶©µ¥×Ü¼Û
     for (vector<Cell>::iterator it_tmp = myorder->begin(); it_tmp < myorder->end(); ++it_tmp)
         total += it_tmp->gettopay();
     do
     {
         system("cls");
         cout << "**************************My Order*************************" << endl;
-        if (myorder->empty()) //æ²¡æœ‰è®¢å•åˆ™æç¤ºä¸ºç©ºï¼Œåªèƒ½è¿”å›
+        if (myorder->empty()) //Ã»ÓĞ¶©µ¥ÔòÌáÊ¾Îª¿Õ£¬Ö»ÄÜ·µ»Ø
         {
             cout << "Empty" << endl;
             cout << "Press any key to go back." << endl;
@@ -665,8 +665,8 @@ void Page::managemyorder()
         }
         else
         {
-            it->printdes();           //æ˜¾ç¤ºè®¢å•ä¸­å½“å‰æ¡ç›®è¯¦æƒ…
-            cout << "In total to pay" //æ˜¾ç¤ºè®¢å•æ€»ä»·
+            it->printdes();           //ÏÔÊ¾¶©µ¥ÖĞµ±Ç°ÌõÄ¿ÏêÇé
+            cout << "In total to pay" //ÏÔÊ¾¶©µ¥×Ü¼Û
                  << "\t"
                  << total << endl;
         }
@@ -712,7 +712,7 @@ void Page::managemyorder()
             break;
         }
         case 'f':
-            if (cur_usr->getBalance() < total) //ä½™é¢è¶³å¤Ÿåˆ™å¯æ”¯ä»˜ï¼Œå¦åˆ™æç¤ºæ— é’±
+            if (cur_usr->getBalance() < total) //Óà¶î×ã¹»Ôò¿ÉÖ§¸¶£¬·ñÔòÌáÊ¾ÎŞÇ®
             {
                 system("cls");
                 cout << "The balance is insufficient." << endl;
@@ -751,7 +751,7 @@ void Page::managemyorder()
 void Page::managemycart(vector<Cell> *shoppingcart)
 {
     vector<Cell>::iterator it = shoppingcart->begin();
-    double total = 0; //è´­ç‰©è½¦æ€»ä»·
+    double total = 0; //¹ºÎï³µ×Ü¼Û
     for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
         total += it_tmp->gettopay();
     do
@@ -838,7 +838,7 @@ void Page::managemycart(vector<Cell> *shoppingcart)
         }
         case 'f':
         {
-            if (((Client *)cur_usr)->manageorder()->empty()) //æ²¡æœ‰å·²å­˜åœ¨è®¢å•æ‰èƒ½æ·»åŠ è®¢å•
+            if (((Client *)cur_usr)->manageorder()->empty()) //Ã»ÓĞÒÑ´æÔÚ¶©µ¥²ÅÄÜÌí¼Ó¶©µ¥
             {
                 for (vector<Cell>::iterator it_tmp = shoppingcart->begin(); it_tmp < shoppingcart->end(); ++it_tmp)
                     it_tmp->toorder();
